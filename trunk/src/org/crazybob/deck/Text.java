@@ -22,8 +22,9 @@ public class Text extends InlineElement {
     return this;
   }
 
-  Paragraph toParagraph(Deck deck, Font defaultFont) {
-    return new Paragraph(s, font == null ? defaultFont.pdfFont : font.pdfFont);
+  Paragraph toParagraph(Font defaultFont) {
+    Font f = font == null ? defaultFont : font;
+    return f.newParagraph(s);
   }
 
   Chunk toChunk(Deck deck) {
@@ -32,6 +33,6 @@ public class Text extends InlineElement {
   }
 
   void writePdf(Deck deck, ColumnText column) throws DocumentException {
-    column.addElement(toParagraph(deck, deck.template.defaultFont()));
+    column.addElement(toParagraph(deck.template.defaultFont()));
   }
 }
