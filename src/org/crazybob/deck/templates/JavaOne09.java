@@ -58,7 +58,7 @@ public class JavaOne09 implements Template {
   }
 
   public Font subtitleFont() {
-    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, LIGHT_BLUE);
+    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, LIGHT_BLUE, 34);
   }
 
   public Font bulletFont(int depth) {

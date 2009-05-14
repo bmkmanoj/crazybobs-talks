@@ -43,8 +43,11 @@ public class Bullets extends InlineElement {
     Font defaultFont = deck.template.bulletFont(depth);
 
     for (Bullet bullet : bullets.list) {
-      Paragraph container = new Paragraph(bulletChunk);
-      container.add(bullet.text.toParagraph(deck, defaultFont));
+      // Use leading from bullet text.
+      Paragraph bulletText = bullet.text.toParagraph(defaultFont);
+      Paragraph container = new Paragraph(bulletText.getLeading(),
+          bulletChunk);
+      container.add(bulletText);
 
       container.setIndentationLeft(depth * 30);
       column.addElement(container);

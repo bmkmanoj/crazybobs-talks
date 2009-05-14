@@ -1,9 +1,7 @@
 package org.crazybob.deck;
 
 import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Image;
+import com.lowagie.text.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -59,11 +57,10 @@ public class Slide {
       template.defaultMargins().applyTo(column);
 
       if (title != null) {
-        column.addElement(new Paragraph(title, template.titleFont().pdfFont));
+        column.addElement(template.titleFont().newParagraph(title));
       }
       if (subtitle != null) {
-        column.addElement(new Paragraph(subtitle,
-            template.subtitleFont().pdfFont));      
+        column.addElement(template.subtitleFont().newParagraph(subtitle));
       }
 
       if (title != null || subtitle != null) {
