@@ -1,19 +1,3 @@
-/**
- * Copyright (C) 2007 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.crazybob.deck;
 
 import com.lowagie.text.Document;
@@ -33,24 +17,14 @@ import java.io.IOException;
  */
 public class Deck {
 
-  Style style;
+  public static final int WIDTH = 1280;
+  public static final int HEIGHT = 960;
+
   String title;
   String subtitle;
   String author;
   String company;
   final List<Slide> slides = new ArrayList<Slide>();
-  Document document;
-  PdfWriter writer;
-
-  public Style style() {
-    return this.style;
-  }
-
-  public Deck style(Style style) {
-    if (style != null) throw new IllegalStateException("style already set.");
-    this.style = style;
-    return this;
-  }
 
   public Deck add(Slide slide) {
     slides.add(slide);
@@ -93,34 +67,60 @@ public class Deck {
     return this;
   }
 
-  public void writeTo(String path, boolean open) {
-    document = new Document(new Rectangle(style.width(),
-        style.height()));
-    document.setMargins(0, 0, 0, 0);
+  static int ptsToPixels(int pts) {
+    return pts * WIDTH / 800;
+  }
+
+  Template template;
+  Document document;
+  PdfWriter writer;
+  int slideIndex;
+
+  /**
+   *
+   * @param path
+   * @param open
+   */
+  public void writePdf(Template template, String path, boolean open) {
     try {
-      writer = PdfWriter.getInstance(document,
-          new FileOutputStream(path));
-    } catch (DocumentException e) {
-      throw new RuntimeException(e);
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    }
-
-    document.open();
-
-    for (Slide slide : slides) {
-      slide.addTo(this);
-    }
-
-    document.close();
-
-    if (open) {
+      this.template = template;
+      document = new Document(new Rectangle(WIDTH, HEIGHT));
+      document.setMargins(0, 0, 0, 0);
       try {
-        Runtime.getRuntime().exec(
-            new String[] { "open", "out/references.pdf" });
-      } catch (IOException e) {
+        writer = PdfWriter.getInstance(document,
+            new FileOutputStream(path));
+      } catch (DocumentException e) {
+        throw new RuntimeException(e);
+      } catch (FileNotFoundException e) {
         throw new RuntimeException(e);
       }
+
+      document.open();
+
+      slideIndex = 1;
+      template.titleSlide(this).writePdf(this);
+      for (Slide slide : slides) {
+        document.newPage();
+        ++slideIndex;
+        slide.writePdf(this);
+      }
+
+      document.close();
+
+      if (open) {
+        try {
+          Runtime.getRuntime().exec(
+              new String[] { "open", "out/references.pdf" });
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    } catch (DocumentException e) {
+      throw new RuntimeException("Error at slide #" + slideIndex, e);
+    } finally {
+      this.template = null;
+      document = null;
+      writer = null;
     }
   }
 }
