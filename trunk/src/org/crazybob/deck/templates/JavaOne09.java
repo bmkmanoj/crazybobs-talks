@@ -33,7 +33,7 @@ public class JavaOne09 implements Template {
     titleBox.add(new Text(deck.title()).font(titleFont));
     titleBox.add(new Text(deck.subtitle()).font(titleFont));
 
-    titleBox.add(Spacer.vertical(titleSpacing()));
+    titleBox.add(Spacer.vertical(30));
 
     titleBox.add(new Text(deck.author()).font(
         new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, GRAY)));
@@ -43,7 +43,7 @@ public class JavaOne09 implements Template {
     titleSlide.add(titleBox);
 
     Picture googleLogo = Picture.parseFile("images/google/logo.jpg");
-    googleLogo.position(200, 900);
+    googleLogo.position(200, 775);
     titleSlide.add(googleLogo);
 
     return titleSlide;
@@ -53,12 +53,16 @@ public class JavaOne09 implements Template {
     return new Font(Font.Face.HELVETICA, 36, Font.Style.NORMAL, BLUE);
   }
 
-  public Font defaultFont() {
-    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, Color.BLACK);
+  public Margins titleMargins() {
+    return new Margins(50, 90, 36, Deck.HEIGHT - 180);
   }
 
-  public Font subtitleFont() {
-    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, LIGHT_BLUE, 34);
+  public Margins contentMargins() {
+    return new Margins(50, 200, 36, 36);
+  }
+
+  public Font defaultFont() {
+    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, Color.BLACK);
   }
 
   public Font bulletFont(int depth) {
@@ -79,13 +83,5 @@ public class JavaOne09 implements Template {
       case 2: return 22;
       default: return 18;            
     }
-  }
-
-  public Margins defaultMargins() {
-    return new Margins(50, 90, 36, 36);
-  }
-
-  public int titleSpacing() {
-    return 20;
   }
 }
