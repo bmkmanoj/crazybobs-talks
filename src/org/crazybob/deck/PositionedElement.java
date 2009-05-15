@@ -9,5 +9,6 @@ import org.crazybob.deck.Deck;
  */
 public abstract class PositionedElement {
 
-  abstract void writePdf(Deck deck) throws DocumentException;
+  abstract void writePdf(Deck deck) throws DocumentException;  
+  protected void layOut(Deck deck, Slide slide) {}
 }

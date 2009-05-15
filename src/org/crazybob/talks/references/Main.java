@@ -3,7 +3,7 @@ package org.crazybob.talks.references;
 import org.crazybob.deck.Deck;
 import org.crazybob.deck.Slide;
 import org.crazybob.deck.Bullets;
-import org.crazybob.deck.Dot;
+import org.crazybob.deck.Picture;
 import org.crazybob.deck.templates.JavaOne09;
 
 public class Main {
@@ -28,11 +28,11 @@ public class Main {
                 .add("Level 3"))))
     );
 
-    Dot dot = Dot.parse("digraph g {\n"
+    Picture dot = Picture.parseDot("digraph g {\n"
         + "    foo -> bar\n"
         + "    bar -> tee\n"
         + "    tee -> foo\n"
-        + "}").height(700);
+        + "}").height(900).center();
 
     deck.add(new Slide()
         .title("Example dot diagram")

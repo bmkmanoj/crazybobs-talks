@@ -8,10 +8,9 @@ public interface Template {
   Slide titleSlide(Deck deck);
   Picture defaultBackground();
   Font defaultFont();
-  Margins defaultMargins();
+  Margins contentMargins();
+  Margins titleMargins();
   Font titleFont();
-  Font subtitleFont();
   Font bulletFont(int depth);
   Text bullet(int depth);
-  int titleSpacing();
 }

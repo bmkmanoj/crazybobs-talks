@@ -47,27 +47,22 @@ public class Slide {
     Template template = deck.template;
 
     Image backgroundImage = background == null
-        ? template.defaultBackground().image
-        : background.image;
-    backgroundImage.setAlignment(Image.UNDERLYING);
+        ? template.defaultBackground().asBackgroundImage()
+        : background.asBackgroundImage();
     deck.document.add(backgroundImage);
 
-    // TODO: Decouple the title from the content.
-    if (title != null || subtitle != null || !inlineElements.isEmpty()) {
+    if (title != null) {
       ColumnText column = new ColumnText(deck.writer.getDirectContent());
-      template.defaultMargins().applyTo(column);
-
-      if (title != null) {
-        column.addElement(template.titleFont().newParagraph(title));
+      template.titleMargins().applyTo(column);
+      column.addElement(template.titleFont().newParagraph(title));
+      if (column.go() == ColumnText.NO_MORE_COLUMN) {
+        System.err.println("Warning: Overrun in slide #" + deck.slideIndex);
       }
-      if (subtitle != null) {
-        column.addElement(template.subtitleFont().newParagraph(subtitle));
-      }
+    }
 
-      if (title != null || subtitle != null) {
-        Spacer.vertical(template.titleSpacing()).writePdf(deck, column);        
-      }
-
+    if (!inlineElements.isEmpty()) {
+      ColumnText column = new ColumnText(deck.writer.getDirectContent());
+      template.contentMargins().applyTo(column);
       for (InlineElement element : inlineElements) {
         element.writePdf(deck, column);
       }
@@ -77,6 +72,7 @@ public class Slide {
     }
 
     for (PositionedElement element : positionedElement) {
+      element.layOut(deck, this);
       element.writePdf(deck);
     }
   }
