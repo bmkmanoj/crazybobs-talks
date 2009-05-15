@@ -52,6 +52,7 @@ public class Slide {
     backgroundImage.setAlignment(Image.UNDERLYING);
     deck.document.add(backgroundImage);
 
+    // TODO: Decouple the title from the content.
     if (title != null || subtitle != null || !inlineElements.isEmpty()) {
       ColumnText column = new ColumnText(deck.writer.getDirectContent());
       template.defaultMargins().applyTo(column);

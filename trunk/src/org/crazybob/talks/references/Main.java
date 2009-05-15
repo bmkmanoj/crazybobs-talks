@@ -20,14 +20,23 @@ public class Main {
         .subtitle("Subtitle")
         .add(new Bullets()
             .add("Top level bullet", new Bullets()
-                .add("Second level bullet"))));
+                .add("Second level bullet", new Bullets()
+                    .add("Level 3")))
+            .add("Top level bullet", new Bullets()
+            .add("Second level bullet")
+            .add("Second level bullet", new Bullets()
+                .add("Level 3"))))
+    );
 
-    deck.add(new Slide()
-      .add(Dot.parse("digraph g {\n"
+    Dot dot = Dot.parse("digraph g {\n"
         + "    foo -> bar\n"
         + "    bar -> tee\n"
         + "    tee -> foo\n"
-        + "}")));
+        + "}").height(700);
+
+    deck.add(new Slide()
+        .title("Example dot diagram")
+        .add(dot));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }
