@@ -15,7 +15,7 @@ import java.io.OutputStream;
 public abstract class Picture extends PositionedElement {
   
   int x = -1, y = -1, w = -1, h = -1;
-  boolean center;
+  boolean center, fill;
 
   public Picture position(int x, int y) {
     this.x = x;
@@ -51,6 +51,11 @@ public abstract class Picture extends PositionedElement {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Picture fill() {
+    fill = true;
+    return this;
   }
 
   static class ImagePicture extends Picture {
@@ -102,13 +107,28 @@ public abstract class Picture extends PositionedElement {
         Image image = Image.getInstance(page);
         int oldW = (int) image.getWidth();
         int oldH = (int) image.getHeight();
-        if (this.w > -1) {
-          image.scaleAbsolute(w, oldH * w / oldW);
-        } else if (this.h > -1) {
-          image.scaleAbsolute(oldW * h / oldH, h);
+
+        Margins contentMargins = deck.template.contentMargins();
+
+        if (fill) {
+          // try filling vertically
+          int newH = contentMargins.height();
+          int newW = oldW * newH / oldH;
+          if (newW <= contentMargins.width()) {
+            image.scaleAbsolute(newW, newH);
+          } else {
+            newW = contentMargins.width();
+            image.scaleAbsolute(newW, oldH * newW / oldW);
+          }
+        } else {
+          if (this.w > -1) {
+            image.scaleAbsolute(w, oldH * w / oldW);
+          } else if (this.h > -1) {
+            image.scaleAbsolute(oldW * h / oldH, h);
+          }
         }
+
         if (center) {
-          Margins contentMargins = deck.template.contentMargins();
           image.setAbsolutePosition(
               contentMargins.centerX() - image.getScaledWidth() / 2,
               Deck.HEIGHT - contentMargins.centerY()

@@ -24,6 +24,14 @@ public class Margins {
     return (Deck.HEIGHT - top - bottom) / 2 + top;
   }
 
+  public int width() {
+    return Deck.WIDTH - left - right;
+  }
+
+  public int height() {
+    return Deck.HEIGHT - top - bottom;  
+  }
+
   void applyTo(ColumnText column) {
     column.setSimpleColumn(left, bottom, Deck.WIDTH - right, Deck.HEIGHT - top);
   }

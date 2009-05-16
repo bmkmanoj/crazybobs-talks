@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Box extends PositionedElement {
 
-  final List<InlineElement> elements = new ArrayList<InlineElement>();
+  final List<Element> elements = new ArrayList<Element>();
   final Margins margins;
 
   public Box(Margins margins) {
@@ -22,7 +22,7 @@ public class Box extends PositionedElement {
     this.margins = new Margins(left, top, right, bottom);
   }
 
-  public Box add(InlineElement element) {
+  public Box add(Element element) {
     elements.add(element);
     return this;
   }
@@ -30,7 +30,7 @@ public class Box extends PositionedElement {
   void writePdf(Deck deck) throws DocumentException {
     ColumnText column = new ColumnText(deck.writer.getDirectContent());
     margins.applyTo(column);
-    for (InlineElement element : elements) {
+    for (Element element : elements) {
       element.writePdf(deck, column);
     }
     if (column.go() == ColumnText.NO_MORE_COLUMN) {

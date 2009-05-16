@@ -8,7 +8,7 @@ import com.lowagie.text.pdf.ColumnText;
 /**
  *
  */
-public class Text extends InlineElement {
+public class Text extends Element {
 
   final String s;
   Font font;

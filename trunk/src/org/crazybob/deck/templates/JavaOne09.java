@@ -11,6 +11,7 @@ import org.crazybob.deck.Text;
 import org.crazybob.deck.Spacer;
 
 import java.awt.*;
+import static java.awt.Color.BLACK;
 
 public class JavaOne09 implements Template {
 
@@ -62,12 +63,12 @@ public class JavaOne09 implements Template {
   }
 
   public Font defaultFont() {
-    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, Color.BLACK);
+    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, BLACK);
   }
 
   public Font bulletFont(int depth) {
     return new Font(Font.Face.HELVETICA, bulletFontSize(depth),
-        Font.Style.NORMAL, Color.BLACK);
+        Font.Style.NORMAL, BLACK);
   }
 
   public Text bullet(int depth) {
@@ -83,5 +84,13 @@ public class JavaOne09 implements Template {
       case 2: return 22;
       default: return 18;            
     }
+  }
+
+  public Font codeFont() {
+    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, BLACK, 28);
+  }
+
+  public Font highlightedCodeFont() {
+    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, Color.BLUE, 28);
   }
 }

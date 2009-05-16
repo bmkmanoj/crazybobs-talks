@@ -5,6 +5,7 @@ import com.lowagie.text.*;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -12,19 +13,19 @@ import java.util.ArrayList;
 public class Slide {
 
   String title;
-  String subtitle;
-  final List<InlineElement> inlineElements = new ArrayList<InlineElement>();
+  final List<Element> inlineElements = new ArrayList<Element>();
   final List<PositionedElement> positionedElement
       = new ArrayList<PositionedElement>();
   Picture background;
 
-  public Slide title(String title) {
+  public Slide() {}
+
+  public Slide(String title) {
     this.title = title;
-    return this;
   }
 
-  public Slide subtitle(String title) {
-    this.subtitle = title;
+  public Slide title(String title) {
+    this.title = title;
     return this;
   }
 
@@ -33,8 +34,13 @@ public class Slide {
     return this;
   }
 
-  public Slide add(InlineElement element) {
+  public Slide add(Element element) {
     inlineElements.add(element);
+    return this;
+  }
+
+  public Slide add(Element... elements) {
+    inlineElements.addAll(Arrays.asList(elements));
     return this;
   }
 
@@ -63,7 +69,7 @@ public class Slide {
     if (!inlineElements.isEmpty()) {
       ColumnText column = new ColumnText(deck.writer.getDirectContent());
       template.contentMargins().applyTo(column);
-      for (InlineElement element : inlineElements) {
+      for (Element element : inlineElements) {
         element.writePdf(deck, column);
       }
       if (column.go() == ColumnText.NO_MORE_COLUMN) {
