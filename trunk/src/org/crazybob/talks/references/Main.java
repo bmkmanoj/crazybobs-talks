@@ -11,6 +11,10 @@ import org.crazybob.deck.dot.Node;
 import org.crazybob.deck.dot.Link;
 import org.crazybob.deck.templates.JavaOne09;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Main {
 
   static final String PATH = "src/org/crazybob/talks/references/";
@@ -46,6 +50,28 @@ public class Main {
         new Text(" "),
         parseCode("eg1/Foo.java")
     ));
+
+    DiGraph heap = new DiGraph();
+    List<Node> nodes = new ArrayList<Node>();
+    Node root = heap.newNode("root").fillColor("black").fontColor("white");
+    nodes.add(root);
+    for (int i = 0; i < 20; i++) {
+      nodes.add(heap.newNode(String.valueOf((char) ('a' + i))));
+    }
+    Random random = new Random(2);
+    for (int i = 0; i < 20; i++) {
+      int sourceIndex = random.nextInt(nodes.size());
+      int destIndex = random.nextInt(nodes.size());
+      nodes.get(sourceIndex).pointTo(nodes.get(destIndex));
+    }
+    for (int i = 0; i < 20; i++) {
+      int sourceIndex = random.nextInt(nodes.size());
+      int destIndex = random.nextInt(nodes.size());
+      nodes.get(sourceIndex).pointTo(nodes.get(destIndex)).color("lightgrey");
+    }
+
+    deck.add(new Slide("Hello, World!").add(
+        Picture.parseDot(heap.toString()).fill().center()));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }
@@ -95,8 +121,6 @@ public class Main {
 
     deck.add(new Slide("Garbage Collection").add(
         Picture.parseDot(heap.toString()).fill().center()));
-
-    System.out.println(heap.toString());
   }
 
   private static Code parseCode(String path) {
