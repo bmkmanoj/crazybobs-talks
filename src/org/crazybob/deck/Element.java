@@ -6,7 +6,7 @@ import com.lowagie.text.pdf.ColumnText;
 /**
  *
  */
-public abstract class InlineElement {
+public abstract class Element {
 
   abstract void writePdf(Deck deck, ColumnText column)
       throws DocumentException;

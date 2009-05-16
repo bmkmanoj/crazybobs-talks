@@ -13,4 +13,6 @@ public interface Template {
   Font titleFont();
   Font bulletFont(int depth);
   Text bullet(int depth);
+  Font codeFont();
+  Font highlightedCodeFont();
 }

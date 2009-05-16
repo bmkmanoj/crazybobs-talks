@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  *
  */
-public class Bullets extends InlineElement {
+public class Bullets extends Element {
 
   final List<Bullet> list = new ArrayList<Bullet>();
 

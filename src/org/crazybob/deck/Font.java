@@ -1,7 +1,6 @@
 package org.crazybob.deck;
 
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.Chunk;
 
 import java.awt.Color;
 
