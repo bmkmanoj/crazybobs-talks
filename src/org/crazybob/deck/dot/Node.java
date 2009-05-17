@@ -11,10 +11,15 @@ public class Node {
   final List<Link> links = new ArrayList<Link>();
 
   final String id, label;
+  String shape = "ellipse";
 
   Node(String id, String label) {
     this.id = id;
     this.label = label;
+  }
+
+  public List<Link> links() {
+    return links;
   }
 
   public Link pointTo(Node other) {
@@ -35,22 +40,27 @@ public class Node {
     return this;
   }
 
+  public Node shape(String name) {
+    this.shape = name;
+    return this;
+  }
+
   String lineColor = "black";
   String fillColor = "lightgrey";
   String fontColor = "black";
 
   public Node lineColor(String c) {
-    this.lineColor = c;
+    this.lineColor = filterColor(c);
     return this;
   }
 
   public Node fillColor(String c) {
-    this.fillColor = c;
+    this.fillColor = filterColor(c);
     return this;
   }
 
   public Node fontColor(String c) {
-    this.fontColor = c;
+    this.fontColor = filterColor(c);
     return this;
   }
 
@@ -63,8 +73,10 @@ public class Node {
       lineColor = fillColor = textColor = "transparent";
     }
 
-    builder.append(id).append("[label=\"").append(label).append("\",color=")
-        .append(lineColor).append(",fillcolor=").append(fillColor)
+    builder.append(id).append("[label=\"").append(label)
+        .append("\",color=").append(lineColor)
+        .append(",fillcolor=").append(fillColor)
+        .append(",shape=").append(shape)
         .append(",fontcolor=").append(textColor).append("]\n");
   }
 
@@ -74,5 +86,9 @@ public class Node {
       builder.append(id).append(" -> ").append(link.target.id).append("[color=")
           .append(color).append("]\n");
     }
+  }
+
+  static String filterColor(String color) {
+    return color.startsWith("#") ? "\"" + color + "\"" : color;
   }
 }

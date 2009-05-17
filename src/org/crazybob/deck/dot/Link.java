@@ -16,8 +16,12 @@ public class Link {
     return color("transparent");
   }
 
+  public Node target() {
+    return this.target;
+  }
+
   public Link color(String color) {
-    this.color = color;
+    this.color = Node.filterColor(color);
     return this;
   }  
 }
