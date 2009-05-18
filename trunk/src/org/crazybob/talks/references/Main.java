@@ -22,6 +22,10 @@ public class Main {
         .author("Bob Lee")
         .company("Google Inc.");
 
+    deck.add(new Slide("Goals").add(new Bullets()
+        .add("Take the mystery out of garbage collection.")
+    ));
+
     addHeapSlides(deck);
 
     deck.add(new Slide("Reachability").add(new Bullets()
@@ -47,9 +51,8 @@ public class Main {
         parseCode("eg1/Foo.java")
     ));
 
-    MarkingTracer tracer = new MarkingTracer(deck);
-    tracer.traceStrongReferences();
-    tracer.traceSoftReferences();
+    MarkingTracer tracer = new MarkingTracer(deck, 12);
+    tracer.addSlides();
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }
@@ -97,7 +100,7 @@ public class Main {
     d.hide();
     e.hide();
 
-    deck.add(new Slide("The collector reclaims D and E.").add(
+    deck.add(new Slide("So the collector reclaims them.").add(
         Picture.parseDot(heap.toString()).fill().center()));
   }
 

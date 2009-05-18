@@ -21,7 +21,8 @@ public class DiGraph {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("digraph g { margin=0\n rankdir=LR\n node[style=filled]\n ");
+    builder.append("digraph g { aspect=1.66\n margin=0\n rankdir=LR\n" 
+        + " node[style=filled]\n ");
     for (Node node : nodes) {
       node.appendDecl(builder);
     }
