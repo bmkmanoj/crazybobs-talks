@@ -26,7 +26,6 @@ public class MarkingTracer {
   final Set<Weak> weaks = new LinkedHashSet<Weak>();
   final Set<Phantom> phantoms = new LinkedHashSet<Phantom>();
   final List<Obj> allObjects = new ArrayList<Obj>();
-  final Set<Node> marks = new HashSet<Node>();
 
   private static final String GRAY = "#cccccc";
   private static final String BLACK = "black";
@@ -50,6 +49,7 @@ public class MarkingTracer {
   abstract class Obj {
     final Node node;
     final List<Pointer> pointers = new ArrayList<Pointer>();
+    boolean marked = false;
 
     Obj(String label) {
       this.node = heap.newNode(label);
@@ -66,6 +66,15 @@ public class MarkingTracer {
     void reference(Obj target) {
       pointers.add(new Pointer(target, node.pointTo(target.node)));
     }
+
+    void mark() {
+      marked = true;
+      dark();
+    }
+
+    boolean shouldTrace() {
+      return false;
+    }
   }
 
   class Root extends Obj {
@@ -77,6 +86,9 @@ public class MarkingTracer {
     }
     void dark() {
       node.fillColor(BLACK).fontColor(WHITE).lineColor(BLACK);
+    }
+    @Override boolean shouldTrace() {
+      return true;
     }
   }
 
@@ -90,7 +102,12 @@ public class MarkingTracer {
     void dark() {
       node.fillColor("#999999").fontColor(WHITE).lineColor(BLACK);
     }
+    @Override boolean shouldTrace() {
+      return true;
+    }
   }
+
+  boolean traceSofts = false;
 
   class Soft extends Obj {
     Soft() {
@@ -101,6 +118,9 @@ public class MarkingTracer {
     }
     void dark() {
       node.fillColor("#009900").fontColor(WHITE).lineColor(BLACK);
+    }
+    @Override boolean shouldTrace() {
+      return traceSofts;
     }
   }
 
@@ -172,7 +192,15 @@ public class MarkingTracer {
       for (Pointer pointer : o.pointers) pointer.light();
     }
 
-    addSlide("1. To start, nothing is marked.");
+    addSlide("No objects are marked at first.");
+
+    root.dark();
+
+    addSlide("1. Start at a root.");
+
+    trace(root);
+
+    addSlide("2. Trace strong references.");
   }
 
   private void randomlyLink(Obj source) {
@@ -187,6 +215,24 @@ public class MarkingTracer {
   private void addSlide(String title) {
     this.deck.add(new Slide(title).add(
         Picture.parseDot(heap.toString()).fill().center()));
+  }
+
+  int counter = 0;
+
+  private void trace(Obj from) {
+    if (from.marked) return;
+    from.mark();
+    counter++;
+    if (counter == 5) {
+      counter = 0;
+      addSlide("2. Trace strong references.");
+    }
+    if (from.shouldTrace()) {
+      for (Pointer p : from.pointers) {
+        p.dark();
+        trace(p.target);
+      }
+    }
   }
 
   public void traceStrongReferences() {
