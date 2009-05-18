@@ -32,9 +32,24 @@ public class MarkingTracer {
   private static final String BLACK = "black";
   private static final String WHITE = "#ffffff";
 
+  static class Pointer {
+    final Obj target;
+    final Link link;
+    Pointer(Obj target, Link link) {
+      this.target = target;
+      this.link = link;
+    }
+    void light() {
+      link.color(GRAY);
+    }
+    void dark() {
+      link.color(BLACK);
+    }
+  }
+
   abstract class Obj {
     final Node node;
-    final List<Obj> referents = new ArrayList<Obj>();
+    final List<Pointer> pointers = new ArrayList<Pointer>();
 
     Obj(String label) {
       this.node = heap.newNode(label);
@@ -48,9 +63,8 @@ public class MarkingTracer {
       node.hide();
     }
 
-    void reference(Obj other) {
-      referents.add(other);
-      node.pointTo(other.node);
+    void reference(Obj target) {
+      pointers.add(new Pointer(target, node.pointTo(target.node)));
     }
   }
 
@@ -155,9 +169,7 @@ public class MarkingTracer {
 
     for (Obj o : allObjects) {
       o.light();
-      for (Link link : o.node.links()) {
-        link.color(GRAY);
-      }
+      for (Pointer pointer : o.pointers) pointer.light();
     }
 
     addSlide("1. To start, nothing is marked.");
