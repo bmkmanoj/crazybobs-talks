@@ -60,7 +60,7 @@ public class JavaOne09 implements Template {
 
   public Margins contentMargins() {
     // 1180x710 (aspect=1.66)
-    return new Margins(50, 200, 50, 50);
+    return new Margins(50, 200, 50, 60);
   }
 
   public Font defaultFont() {
