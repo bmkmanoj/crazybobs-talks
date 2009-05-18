@@ -51,7 +51,12 @@ public class Main {
         parseCode("eg1/Foo.java")
     ));
 
-    MarkingTracer tracer = new MarkingTracer(deck, 12);
+
+//    for (int i = 0; i < 40; i++) {
+//      MarkAndSweep tracer = new MarkAndSweep(deck, i);
+//      tracer.addSeededSlide(i);
+//    }
+    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
@@ -63,11 +68,11 @@ public class Main {
     Node root1 = heap.newNode("root").fillColor("black").fontColor("white");
     Node root2 = heap.newNode("root").fillColor("black").fontColor("white");
 
-    Node a = heap.newNode("A").fillColor("white");
-    Node b = heap.newNode("B").fillColor("white");
-    Node c = heap.newNode("C").fillColor("white");
-    Node d = heap.newNode("D").fillColor("white");
-    Node e = heap.newNode("E").fillColor("white");
+    Node a = heap.newNode("a").fillColor("white");
+    Node b = heap.newNode("b").fillColor("white");
+    Node c = heap.newNode("c").fillColor("white");
+    Node d = heap.newNode("d").fillColor("white");
+    Node e = heap.newNode("e").fillColor("white");
 
     Link r1a = root1.pointTo(a);
     Link r1d = root1.pointTo(d);

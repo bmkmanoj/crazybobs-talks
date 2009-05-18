@@ -13,7 +13,7 @@ public class DiGraph {
   int lastId = 0;
 
   public Node newNode(String label) {
-    Node node = new Node("node" + lastId++, label);
+    Node node = new Node("n" + lastId++, label);
     nodes.add(node);
     return node;
   }
@@ -21,8 +21,8 @@ public class DiGraph {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("digraph g { aspect=1.66\n margin=0\n rankdir=LR\n" 
-        + " node[style=filled]\n ");
+    builder.append("digraph g { aspect=1.66; margin=0; rankdir=LR;"
+        + " node[style=filled];\n");
     for (Node node : nodes) {
       node.appendDecl(builder);
     }

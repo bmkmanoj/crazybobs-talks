@@ -77,14 +77,14 @@ public class Node {
         .append("\",color=").append(lineColor)
         .append(",fillcolor=").append(fillColor)
         .append(",shape=").append(shape)
-        .append(",fontcolor=").append(textColor).append("]\n");
+        .append(",fontcolor=").append(textColor).append("];\n");
   }
 
   void appendLinks(StringBuilder builder) {
     for (Link link : links) {
       String color = hidden || link.target.hidden ? "transparent" : link.color;
       builder.append(id).append(" -> ").append(link.target.id).append("[color=")
-          .append(color).append("]\n");
+          .append(color).append("];\n");
     }
   }
 
