@@ -84,7 +84,11 @@ public class Node {
     for (Link link : links) {
       String color = hidden || link.target.hidden ? "transparent" : link.color;
       builder.append(id).append(" -> ").append(link.target.id).append("[color=")
-          .append(color).append("];\n");
+          .append(color);
+      if (link.style != null) {
+        builder.append(",style=").append(link.style);
+      }
+      builder.append("];\n");
     }
   }
 

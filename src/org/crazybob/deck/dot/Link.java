@@ -6,10 +6,16 @@ package org.crazybob.deck.dot;
 public class Link {
 
   String color = "black";
+  String style = null;
   final Node target;
 
   Link(Node target) {
     this.target = target;
+  }
+
+  public Link style(String style) {
+    this.style = style;
+    return this;
   }
 
   public Link hide() {
