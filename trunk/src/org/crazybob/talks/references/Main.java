@@ -51,13 +51,20 @@ public class Main {
         parseCode("eg1/Foo.java")
     ));
 
-
-//    for (int i = 0; i < 40; i++) {
-//      MarkAndSweep tracer = new MarkAndSweep(deck, i);
-//      tracer.addSeededSlide(i);
-//    }
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
+
+    deck.add(new Slide("Recap").add(
+        new Text("1. Start at a root"),
+        new Text("1. Start at a root")
+    ));
+
+    deck.add(new Slide("Two options for freeing native resources")
+          .add(new Bullets()
+        .add("Use a finalizer.", new Bullets()
+            .add("You must defend against subsequent use!"))
+        .add("Or use a phantom reference.")
+    ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }
