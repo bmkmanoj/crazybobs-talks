@@ -60,7 +60,7 @@ public class Slide {
     if (title != null) {
       ColumnText column = new ColumnText(deck.writer.getDirectContent());
       template.titleMargins().applyTo(column);
-      column.addElement(template.titleFont().newParagraph(title));
+      column.addElement(new Text(title).toParagraph(template.titleFont()));
       if (column.go() == ColumnText.NO_MORE_COLUMN) {
         System.err.println("Warning: Overrun in slide #" + deck.slideIndex);
       }

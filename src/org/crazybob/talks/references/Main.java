@@ -23,7 +23,11 @@ public class Main {
         .company("Google Inc.");
 
     deck.add(new Slide("Goals").add(new Bullets()
+        .add("Perform manual cleanup the right way.")
         .add("Take the mystery out of garbage collection.")
+        .add("Learn enough about references to implement our own" 
+            + " garbage collectors.")
+        .add("Become honorary VM sanitation engineers.")
     ));
 
     addHeapSlides(deck);
@@ -36,14 +40,14 @@ public class Main {
           .add("In-flight exceptions")
           .add("JNI global references")
           .add("The finalizer queue")
-          .add("Interned strings")
+          .add("The interned String pool")
           .add("etc. (VM-dependent)")
         )
     ));
 
-    deck.add(new Slide("In the beginning, there was the finalizer...").add(
-        new Text(" "),
-        parseCode("eg1/Foo.java")
+    deck.add(new Slide("In the beginning, there was the finalizer...")
+        .add(new Bullets()
+            .add("")
     ));
 
     deck.add(new Slide("In the beginning, there was the finalizer...").add(
@@ -53,11 +57,6 @@ public class Main {
 
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
-
-    deck.add(new Slide("Recap").add(
-        new Text("1. Start at a root"),
-        new Text("1. Start at a root")
-    ));
 
     deck.add(new Slide("Two options for freeing native resources")
           .add(new Bullets()

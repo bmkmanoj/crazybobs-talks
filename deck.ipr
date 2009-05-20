@@ -32,37 +32,10 @@
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="groovy">
-          <option name="INDENT_SIZE" value="2" />
-          <option name="CONTINUATION_INDENT_SIZE" value="8" />
-          <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
-          <option name="SMART_TABS" value="false" />
-          <option name="LABEL_INDENT_SIZE" value="0" />
-          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
-        </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="gsp">
-          <option name="INDENT_SIZE" value="2" />
-          <option name="CONTINUATION_INDENT_SIZE" value="8" />
-          <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
-          <option name="SMART_TABS" value="false" />
-          <option name="LABEL_INDENT_SIZE" value="0" />
-          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
-        </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="java">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="4" />
           <option name="TAB_SIZE" value="2" />
-          <option name="USE_TAB_CHARACTER" value="false" />
-          <option name="SMART_TABS" value="false" />
-          <option name="LABEL_INDENT_SIZE" value="0" />
-          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
-        </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="js">
-          <option name="INDENT_SIZE" value="4" />
-          <option name="CONTINUATION_INDENT_SIZE" value="8" />
-          <option name="TAB_SIZE" value="4" />
           <option name="USE_TAB_CHARACTER" value="false" />
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
@@ -200,7 +173,7 @@
   </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
-    <option name="state" value="https://crazybobs-talks.googlecode.com/svn/trunk/deck.ipr" />
+    <option name="state" value="project:///Users/crazybob/projects/talks/deck.ipr" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
@@ -222,7 +195,7 @@
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="svn" />
+    <mapping directory="" vcs="" />
   </component>
   <component name="libraryTable">
     <library name="lib">
