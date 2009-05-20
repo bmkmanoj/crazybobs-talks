@@ -6,6 +6,7 @@ import org.crazybob.deck.dot.Link;
 import org.crazybob.deck.Slide;
 import org.crazybob.deck.Picture;
 import org.crazybob.deck.Deck;
+import org.crazybob.deck.Text;
 
 import java.util.Random;
 import java.util.List;
@@ -31,6 +32,19 @@ public class MarkAndSweep {
   private static final String GRAY = "#999999";
   private static final String BLACK = "black";
   private static final String WHITE = "#ffffff";
+
+  private static final String[] STEPS = {
+      "*1.* Start at a root.",
+      "*2.* Trace and mark strongly-referenced objects.",
+      "*3.* Optionally clear soft references.",
+      "*4.* Trace and mark softly-referenced objects.",
+      "*5.* Clear weak references.",
+      "*6.* Enqueue finalizable objects.",
+      "*7.* Repeat steps 1 through 5 for the queue.",
+      "*8.* Possibly enqueue phantom references.",
+      "*9.* The remaining objects are dead.",
+      "*10.* Repeat."
+  };
 
   static class Pointer {
     final Obj target;
@@ -268,22 +282,22 @@ public class MarkAndSweep {
 
     root.mark();
 
-    title = "1. Start at a root.";
+    title = STEPS[0];
     addSlide();
 
-    title = "2. Trace and mark strongly-referenced objects.";
+    title = STEPS[1];
     addSlide();
     trace(root);
     flushSlides();
 
-    title = "3. Optionally clear soft references.";
+    title = STEPS[2];
     addSlide();
 
     // Note: It's important to trace all strong references before soft
     // references so we don't clear a soft reference that points to
     // a strongly-references object.
 
-    title = "4. Trace and mark softly-referenced objects.";
+    title = STEPS[3];
     // Note: we'd normally also recursively clear/trace softly-referenced
     // soft references.
     addSlide();
@@ -295,7 +309,7 @@ public class MarkAndSweep {
     }
     flushSlides();
 
-    title = "5. Clear weak references.";
+    title = STEPS[4];
     addSlide();
     traceMarkedWeakRefs();
     List<Weak> weaksToClear = weaksToClear();
@@ -308,18 +322,18 @@ public class MarkAndSweep {
     }    
     addSlide();
 
-    title = "6. Enqueue finalizable objects.";
+    title = STEPS[5];
     addSlide();
     finalizerQueue.show();
     addSlide();
 
-    title = "7. Repeat steps 1 through 5 for the queue.";
+    title = STEPS[6];
     addSlide();
     trace(finalizerQueue);
     traceMarkedWeakRefs();
     addSlide();
 
-    title = "8. Enqueue phantom references.";
+    title = STEPS[7];
     addSlide();
     for (Phantom phantom : phantoms) {
       Pointer pointer = phantom.pointers.iterator().next();
@@ -329,27 +343,35 @@ public class MarkAndSweep {
     }
     addSlide();
 
-    title = "9. The remaining objects are dead.";
+    title = STEPS[8];
     addSlide();
     for (Obj o : allObjects) {
       if (!o.marked) o.hide();
     }
     addSlide();
 
-    title = "10. Repeat.";
+    title = STEPS[9];
     addSlide();
 
-    title = "Here's the before snapshot for comparison.";
-
-    finalizerQueue.hide();
-    for (Obj o : allObjects) {
-      o.show();
-      for (Pointer pointer : o.pointers) {
-        pointer.dark();
-      }
+    Slide recap = new Slide("Recap");
+    for (String step : STEPS) {
+      recap.add(new Text(step));
     }
+    deck.add(recap);
 
-    addSlide();
+
+
+//    title = "Here's the before snapshot for comparison.";
+//
+//    finalizerQueue.hide();
+//    for (Obj o : allObjects) {
+//      o.show();
+//      for (Pointer pointer : o.pointers) {
+//        pointer.dark();
+//      }
+//    }
+//
+//    addSlide();
   }
 
   /**

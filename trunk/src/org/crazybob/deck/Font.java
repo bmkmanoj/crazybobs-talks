@@ -4,6 +4,8 @@ import com.lowagie.text.Paragraph;
 
 import java.awt.Color;
 
+import static org.crazybob.deck.Objects.nonNull;
+
 /**
  *
  */
@@ -21,7 +23,9 @@ public class Font {
 
   public enum Style {
     NORMAL(com.lowagie.text.Font.NORMAL),
-    BOLD(com.lowagie.text.Font.BOLD);
+    BOLD(com.lowagie.text.Font.BOLD),
+    ITALIC(com.lowagie.text.Font.ITALIC),
+    BOLD_ITALIC(com.lowagie.text.Font.BOLDITALIC);
 
     final int id;
     Style(int id) {
@@ -29,8 +33,12 @@ public class Font {
     }
   }
 
+  final Face face;
   final com.lowagie.text.Font pdfFont;
   final int leading;
+  final int size;
+  final Color color;
+  final Style style;
 
   /**
    *
@@ -45,9 +53,17 @@ public class Font {
    * @param size in pts
    */
   public Font(Face face, int size, Style style, Color color, int leading) {
+    this.face = nonNull(face);
     this.leading = Deck.ptsToPixels(leading);
     this.pdfFont = new com.lowagie.text.Font(face.id, Deck.ptsToPixels(size),
         style.id, color);
+    this.color = nonNull(color);
+    this.size = size;
+    this.style = nonNull(style);
+  }
+
+  public Font withStyle(Style style) {
+    return new Font(face, size, style, color, leading);
   }
 
   Paragraph newParagraph() {
