@@ -25,8 +25,6 @@ public class Main {
     deck.add(new Slide("Goals").add(new Bullets()
         .add("Perform manual cleanup the right way.")
         .add("Take the mystery out of garbage collection.")
-        .add("Learn enough about references to implement our own" 
-            + " garbage collectors.")
         .add("Become honorary VM sanitation engineers.")
     ));
 
@@ -35,7 +33,7 @@ public class Main {
     deck.add(new Slide("Reachability").add(new Bullets()
         .add("An object is _reachable_ if a live thread can access it.")
         .add("Examples of heap roots:", new Bullets()
-          .add("System classes (which have static state)")
+          .add("System classes (which have static fields)")
           .add("Thread stacks")
           .add("In-flight exceptions")
           .add("JNI global references")
@@ -45,15 +43,9 @@ public class Main {
         )
     ));
 
-    deck.add(new Slide("In the beginning, there was the finalizer...")
-        .add(new Bullets()
-            .add("")
-    ));
-
-    deck.add(new Slide("In the beginning, there was the finalizer...").add(
-        new Text(" "),
-        parseCode("eg1/Foo.java")
-    ));
+    highlightBullets(deck, "Dante's Heap - The Levels of Reachability",
+        "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
+        "Unreachable");
 
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
@@ -66,6 +58,24 @@ public class Main {
     ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
+  }
+
+  private static void highlightBullets(Deck deck, String title,
+      String... bullets) {
+    highlightBullet(deck, title, null, bullets);
+    for (String current : bullets) {
+      highlightBullet(deck, title, current, bullets);
+    }
+  }
+
+  @SuppressWarnings("StringEquality")
+  private static void highlightBullet(Deck deck, String title, String current,
+      String... bullets) {
+    Bullets b = new Bullets();
+    for (String s : bullets) {
+      b.add(current == s ? "*" + s + "*" : s);
+    }
+    deck.add(new Slide(title).add(b));
   }
 
   private static void addHeapSlides(Deck deck) {

@@ -24,11 +24,6 @@ public class Slide {
     this.title = title;
   }
 
-  public Slide title(String title) {
-    this.title = title;
-    return this;
-  }
-
   public Slide background(Picture background) {
     this.background = background;
     return this;
