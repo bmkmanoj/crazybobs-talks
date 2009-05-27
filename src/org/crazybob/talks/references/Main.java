@@ -22,24 +22,24 @@ public class Main {
         .author("Bob Lee")
         .company("Google Inc.");
 
-    deck.add(new Slide("Goals").add(new Bullets()
-        .add("Perform manual cleanup the right way.")
-        .add("Take the mystery out of garbage collection.")
-        .add("Become honorary VM sanitation engineers.")
+    deck.add(new Slide("Goals").add(bullets()
+        .$("Perform manual cleanup the right way.")
+        .$("Take the mystery out of garbage collection.")
+        .$("Become honorary VM sanitation engineers.")
     ));
 
     addHeapSlides(deck);
 
-    deck.add(new Slide("Reachability").add(new Bullets()
-        .add("An object is _reachable_ if a live thread can access it.")
-        .add("Examples of heap roots:", new Bullets()
-          .add("System classes (which have static fields)")
-          .add("Thread stacks")
-          .add("In-flight exceptions")
-          .add("JNI global references")
-          .add("The finalizer queue")
-          .add("The interned String pool")
-          .add("etc. (VM-dependent)")
+    deck.add(new Slide("Reachability").add(bullets()
+        .$("An object is _reachable_ if a live thread can access it.")
+        .$("Examples of heap roots:", bullets()
+          .$("System classes (which have static fields)")
+          .$("Thread stacks")
+          .$("In-flight exceptions")
+          .$("JNI global references")
+          .$("The finalizer queue")
+          .$("The interned String pool")
+          .$("etc. (VM-dependent)")
         )
     ));
 
@@ -50,11 +50,19 @@ public class Main {
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
 
-    deck.add(new Slide("Two options for freeing native resources")
-          .add(new Bullets()
-        .add("Use a finalizer.", new Bullets()
-            .add("You must defend against subsequent use!"))
-        .add("Or use a phantom reference.")
+    deck.add(new Slide("Two options for freeing native resources").add(bullets()
+        .$("Use a finalizer.", bullets()
+          .$("You must defend against subsequent use!"))
+        .$("Or use a phantom reference.")
+    ));
+
+    deck.add(new Slide("Weak references aren't intended for caching!").add(bullets()
+        .$("Many collectors will reclaim them immediately.")
+        .$("Use soft reference for caching, as intended.", bullets()
+          .$("_Virtual machine implementations are, however, encouraged to bias"
+              + " against clearing recently-created or recently-used soft"
+              + " references._")
+        )
     ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
@@ -127,5 +135,32 @@ public class Main {
 
   private static Code parseCode(String path) {
     return Code.parseFile(PATH + path);
+  }
+
+  /** Starts bullets. */
+  private static $Bullets bullets() {
+    return new $Bullets();
+  }
+
+  static class $Bullets extends Bullets {
+    public $Bullets $(Text text) {
+      super.add(text);
+      return this;
+    }
+
+    public $Bullets $(Text text, Bullets children) {
+      super.add(text, children);
+      return this;
+    }
+
+    public $Bullets $(String text) {
+      super.add(text);
+      return this;
+    }
+
+    public $Bullets $(String text, Bullets children) {
+      super.add(text, children);
+      return this;
+    }
   }
 }
