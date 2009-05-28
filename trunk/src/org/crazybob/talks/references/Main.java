@@ -29,8 +29,14 @@ public class Main {
         .$("Become honorary VM sanitation engineers.")
     ));
 
-    deck.add(new Slide("Code Example").add(
-        Code.parseFile(PATH + "eg1/Foo.java")));
+    deck.add(new Slide("An external resource").add(
+        Code.parseFile(PATH + "NativeResource.java")));
+
+    deck.add(new Slide("Let's play War!").add(
+        Code.parseFile(PATH + "SegfaultFactory.java")));
+
+    deck.add(new Slide("Use protection.").add(
+        Code.parseFile(PATH + "SafeNativeResource.java")));
 
     addHeapSlides(deck);
 
@@ -68,7 +74,7 @@ public class Main {
             + " to bias against clearing recently-created or recently-used"
             + " soft references.Ó_"),
         Spacer.vertical(30),
-        new Text("- The |SoftReference| Javadocs").scale(75)
+        new Text("- The |SoftReference| documentation").scale(75)
     ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);

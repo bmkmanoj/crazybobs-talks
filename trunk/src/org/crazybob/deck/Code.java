@@ -44,15 +44,23 @@ public class Code extends Element {
         String command = trimmed.substring(4);
         if (command.equals("HIGHLIGHT")) {
           font = template.highlightedCodeFont();
+        } else if (command.equals("BAD")) {
+          font = template.badCodeFont();
         } else if (command.equals("NORMAL")) {
           font = template.codeFont();
         } else if (command.startsWith("...")) {
           String indent = line.substring(0, line.indexOf("///"));
-          column.addElement(font.newParagraph(indent + "... // "
-              + command.substring(3)));
+          String comment = command.substring(3).trim();
+          if (comment.isEmpty()) {
+            column.addElement(font.newParagraph(indent + "..."));            
+          } else {
+            column.addElement(font.newParagraph(indent + "... // " + comment));
+          }
         }
       } else if (trimmed.startsWith("package ")) {
         continue;
+      } else if (trimmed.isEmpty()) {
+        column.addElement(font.newParagraph(" "));
       } else {
         column.addElement(font.newParagraph(line));
       }

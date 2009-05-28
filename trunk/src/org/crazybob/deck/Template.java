@@ -15,4 +15,5 @@ public interface Template {
   Text bullet(int depth);
   Font codeFont();
   Font highlightedCodeFont();
+  Font badCodeFont();
 }
