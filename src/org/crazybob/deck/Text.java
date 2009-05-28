@@ -12,6 +12,7 @@ public class Text extends Element {
 
   final String s;
   Font font;
+  int scale = 100;
 
   public Text(String s) {
     this.s = s;
@@ -22,13 +23,29 @@ public class Text extends Element {
     return this;
   }
 
+  public Text scale(int percent) {
+    this.scale = percent;
+    return this;
+  }
+
   Paragraph toParagraph(Font defaultFont) {
-    Font f = Objects.nonNull(font == null ? defaultFont : font);
-    Paragraph p = new Paragraph(f.leading);
+    Font f = Objects.nonNull(font == null ? defaultFont : font).scale(scale);
+    Paragraph p = new Paragraph(Deck.ptsToPixels(f.leading));
     StringBuilder b = new StringBuilder(s.length());
+    boolean inCode = false;
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       switch (c) {
+        case '|':
+          flush(b, p, f);
+          if (inCode) {
+            f = f.fromCode();
+            inCode = false;
+          } else {
+            f = f.toCode();
+            inCode = true;
+          }
+          break;
         case '*':
           flush(b, p, f);
           switch (f.style) {

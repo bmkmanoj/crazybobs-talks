@@ -54,7 +54,7 @@ public class Font {
    */
   public Font(Face face, int size, Style style, Color color, int leading) {
     this.face = nonNull(face);
-    this.leading = Deck.ptsToPixels(leading);
+    this.leading = leading;
     this.pdfFont = new com.lowagie.text.Font(face.id, Deck.ptsToPixels(size),
         style.id, color);
     this.color = nonNull(color);
@@ -66,11 +66,24 @@ public class Font {
     return new Font(face, size, style, color, leading);
   }
 
+  public Font scale(int percent) {
+    return new Font(face, size * percent / 100, style, color,
+        leading * percent / 100);
+  }
+
+  Font toCode() {
+    return new Font(Face.COURIER, size, style, color, leading);
+  }
+
+  Font fromCode() {
+    return new Font(Face.HELVETICA, size, style, color, leading);
+  }
+
   Paragraph newParagraph() {
-    return new Paragraph(leading);
+    return new Paragraph(Deck.ptsToPixels(leading));
   }
 
   Paragraph newParagraph(String text) {
-    return new Paragraph(leading, text, pdfFont);
+    return new Paragraph(Deck.ptsToPixels(leading), text, pdfFont);
   }
 }

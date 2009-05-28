@@ -6,6 +6,7 @@ import org.crazybob.deck.Picture;
 import org.crazybob.deck.Code;
 import org.crazybob.deck.Text;
 import org.crazybob.deck.Bullets;
+import org.crazybob.deck.Spacer;
 import org.crazybob.deck.dot.DiGraph;
 import org.crazybob.deck.dot.Node;
 import org.crazybob.deck.dot.Link;
@@ -28,6 +29,9 @@ public class Main {
         .$("Become honorary VM sanitation engineers.")
     ));
 
+    deck.add(new Slide("Code Example").add(
+        Code.parseFile(PATH + "eg1/Foo.java")));
+
     addHeapSlides(deck);
 
     deck.add(new Slide("Reachability").add(bullets()
@@ -47,8 +51,8 @@ public class Main {
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
-    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
-    tracer.addSlides();
+//    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
+//    tracer.addSlides();
 
     deck.add(new Slide("Two options for freeing native resources").add(bullets()
         .$("Use a finalizer.", bullets()
@@ -56,13 +60,15 @@ public class Main {
         .$("Or use a phantom reference.")
     ));
 
-    deck.add(new Slide("Weak references aren't intended for caching!").add(bullets()
-        .$("Many collectors will reclaim them immediately.")
-        .$("Use soft reference for caching, as intended.", bullets()
-          .$("_Virtual machine implementations are, however, encouraged to bias"
-              + " against clearing recently-created or recently-used soft"
-              + " references._")
-        )
+    deck.add(new Slide("Weak references aren't for caching!").add(bullets()
+        .$("Many collectors will reclaim weak refs immediately.")
+        .$("Use soft reference for caching, as intended:"),
+        Spacer.vertical(50),
+        new Text("_ÒVirtual machine implementations are encouraged"
+            + " to bias against clearing recently-created or recently-used"
+            + " soft references.Ó_"),
+        Spacer.vertical(30),
+        new Text("- The |SoftReference| Javadocs").scale(75)
     ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
