@@ -60,7 +60,7 @@ public class JavaOne09 implements Template {
 
   public Margins contentMargins() {
     // 1180x710 (aspect=1.66)
-    return new Margins(50, 180, 50, 60);
+    return new Margins(50, 200, 50, 60);
   }
 
   public Font defaultFont() {
@@ -88,10 +88,14 @@ public class JavaOne09 implements Template {
   }
 
   public Font codeFont() {
-    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, BLACK, 28);
+    return new Font(Font.Face.COURIER, 20, Font.Style.BOLD, BLACK, 26);
   }
 
   public Font highlightedCodeFont() {
     return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, Color.BLUE, 28);
+  }
+
+  public Font badCodeFont() {
+    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, Color.RED, 28);
   }
 }

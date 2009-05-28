@@ -1,5 +1,4 @@
 package org.crazybob.talks.references.eg1;
-
 public class Foo extends Bar {
   /// HIGHLIGHT
   @Override protected void finalize() throws Throwable {
