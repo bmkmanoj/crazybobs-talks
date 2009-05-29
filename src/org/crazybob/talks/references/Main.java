@@ -54,18 +54,20 @@ public class Main {
         )
     ));
 
-    deck.add(new Slide("What is a finalizer?").add(bullets()
-//        .$("Reasons to not use |finally|:", bullets()
-//            .$("More work for users")
-//            .$("More error prone")
-//        )
+    deck.add(new Slide("What is a finalizer?").add(
+        Code.parseFile(PATH + "eg1/Foo.java")
     ));
 
-    deck.add(new Slide("Finalizers suck.").add(bullets()
-//        .$("Reasons to not use |finally|:", bullets()
-//            .$("More work for users")
-//            .$("More error prone")
-//        )
+    deck.add(new Slide("Finalizers are seductively simple, but...").add(bullets()
+        .$("Not guaranteed to run, especially not timely")
+        .$("|System.runFinalizersOnExit()| is deprecated for similar reasons"
+            + " as |Thread.stop()|.")
+        .$("Undefined threading model, can run concurrently!")
+        .$("You must call |super.finalize()|.")
+        .$("Exceptions are ignored (per spec).")
+        .$("You can resurrect references.")
+        .$("Keeps objects alive longer.")
+        .$("Can make allocation/reclamation 430X slower (Bloch, Effective Java)")
     ));
 
     deck.add(new Slide("An external resource").add(
@@ -103,8 +105,8 @@ public class Main {
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
-//    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
-//    tracer.addSlides();
+    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
+    tracer.addSlides();
 
     deck.add(new Slide("Two options for freeing native resources").add(bullets()
         .$("Use a finalizer.", bullets()
