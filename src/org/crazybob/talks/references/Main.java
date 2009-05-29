@@ -23,22 +23,68 @@ public class Main {
         .author("Bob Lee")
         .company("Google Inc.");
 
+    // TODO: trash truck picture
     deck.add(new Slide("Goals").add(bullets()
-        .$("Perform manual cleanup the right way.")
         .$("Take the mystery out of garbage collection.")
+        .$("Perform manual cleanup the Right way.")
         .$("Become honorary VM sanitation engineers.")
+    ));
+
+    addHeapSlides(deck);
+
+    deck.add(new Slide("The GC can't do everything.").add(bullets()
+        .$("Some things require manual cleanup.", bullets()
+            .$("Listeners")
+            .$("File descriptors")
+            .$("Native memory")
+            .$("External state (|IdentityHashMap|)")
+        )
+        .$("Tools at your disposal:", bullets()
+            .$("|finally|")
+            .$("Overriding |Object.finalize()|")
+            .$("Reference queues")
+        )
+    ));
+
+    deck.add(new Slide("Try |finally| first.").add(bullets()
+        .$("Reasons to not use |finally|:", bullets()
+            .$("More work for programmers")
+            .$("More error prone")
+            .$("Cleanup happens in main thread")
+        )
+    ));
+
+    deck.add(new Slide("What is a finalizer?").add(bullets()
+//        .$("Reasons to not use |finally|:", bullets()
+//            .$("More work for users")
+//            .$("More error prone")
+//        )
+    ));
+
+    deck.add(new Slide("Finalizers suck.").add(bullets()
+//        .$("Reasons to not use |finally|:", bullets()
+//            .$("More work for users")
+//            .$("More error prone")
+//        )
     ));
 
     deck.add(new Slide("An external resource").add(
         Code.parseFile(PATH + "NativeResource.java")));
 
-    deck.add(new Slide("Let's play War!").add(
-        Code.parseFile(PATH + "SegfaultFactory.java")));
+    Slide s = new Slide("Let's play War!").add(
+        new Text("|SegfaultFactory| can cause a segfault if its finalizer"
+            + " executes after |NativeResource|'s."),
+        Spacer.vertical(40),
+        Code.parseFile(PATH + "SegfaultFactory.java")
+    );
+    s.add(Picture.parseFile("images/references/war.jpg")
+        .position(950, 350));
+    deck.add(s);
 
     deck.add(new Slide("Use protection.").add(
+        new Text("Extend |NativeResource| and make it safe."),
+        Spacer.vertical(40),
         Code.parseFile(PATH + "SafeNativeResource.java")));
-
-    addHeapSlides(deck);
 
     deck.add(new Slide("Reachability").add(bullets()
         .$("An object is _reachable_ if a live thread can access it.")
