@@ -59,6 +59,10 @@ public class Code extends Element {
         }
       } else if (trimmed.startsWith("package ")) {
         continue;
+      } else if (trimmed.startsWith("import ")) {
+        continue;
+      } else if (trimmed.equals("return null;")) {
+        continue;
       } else if (trimmed.isEmpty()) {
         column.addElement(font.newParagraph(" "));
       } else {

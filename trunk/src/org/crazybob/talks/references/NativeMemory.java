@@ -1,7 +1,7 @@
 package org.crazybob.talks.references;
 
-public class NativeResource {
-  public NativeResource() { init(); }
+public class NativeMemory {
+  public NativeMemory() { init(); }
 
   /** Allocates native memory. */
   private native void init();

@@ -52,6 +52,7 @@ public class Main {
             .$("More error prone")
             .$("Cleanup happens in main thread")
         )
+        .$("ARM will help.")
     ));
 
     deck.add(new Slide("What is a finalizer?").add(
@@ -59,9 +60,8 @@ public class Main {
     ));
 
     deck.add(new Slide("Finalizers are seductively simple, but...").add(bullets()
-        .$("Not guaranteed to run, especially not timely")
-        .$("|System.runFinalizersOnExit()| is deprecated for similar reasons"
-            + " as |Thread.stop()|.")
+        .$("They're not guaranteed to run, especially not timely.")
+        .$("Avoid |System.runFinalizersOnExit()| and |runFinalization()|.")
         .$("Undefined threading model, can run concurrently!")
         .$("You must call |super.finalize()|.")
         .$("Exceptions are ignored (per spec).")
@@ -88,6 +88,19 @@ public class Main {
         Spacer.vertical(40),
         Code.parseFile(PATH + "SafeNativeResource.java")));
 
+    deck.add(new Slide("Finalizers are good for one thing.").add(
+        new Text("Logging warnings")));
+
+    deck.add(new Slide("The alternative").add(
+        new Text("An API-based approach:"),
+        Spacer.vertical(30),
+        Code.parseFile(PATH + "WeakReference.java")
+    ));
+
+    deck.add(new Slide("The alternative").add(
+        Code.parseFile(PATH + "ReferenceQueue.java")
+    ));
+    
     deck.add(new Slide("Reachability").add(bullets()
         .$("An object is _reachable_ if a live thread can access it.")
         .$("Examples of heap roots:", bullets()
@@ -101,18 +114,16 @@ public class Main {
         )
     ));
 
+    deck.add(new Slide("Making maps").add(
+        Code.parseFile(PATH + "BytecodeCache.java")
+    ));
+
     highlightBullets(deck, "Dante's Heap - The Levels of Reachability",
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
-
-    deck.add(new Slide("Two options for freeing native resources").add(bullets()
-        .$("Use a finalizer.", bullets()
-          .$("You must defend against subsequent use!"))
-        .$("Or use a phantom reference.")
-    ));
 
     deck.add(new Slide("Weak references aren't for caching!").add(bullets()
         .$("Many collectors will reclaim weak refs immediately.")
