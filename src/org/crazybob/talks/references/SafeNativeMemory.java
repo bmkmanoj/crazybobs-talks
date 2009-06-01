@@ -1,5 +1,5 @@
 package org.crazybob.talks.references;
-public class SafeNativeResource extends NativeResource {
+public class SafeNativeMemory extends NativeMemory {
   private boolean finalized;
 
   @Override public synchronized void write(byte[] data) {

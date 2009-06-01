@@ -1,7 +1,7 @@
 package org.crazybob.talks.references;
 public class SegfaultFactory {
-  private final NativeResource nr;
-  public SegfaultFactory(NativeResource nr) {
+  private final NativeMemory nr;
+  public SegfaultFactory(NativeMemory nr) {
     this.nr = nr;
   }
 
