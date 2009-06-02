@@ -36,6 +36,19 @@ public class Main {
 
     addHeapSlides(deck);
 
+    deck.add(new Slide("Reachability").add(bullets()
+        .$("An object is _reachable_ if a live thread can access it.")
+        .$("Examples of heap roots:", bullets()
+          .$("System classes (which have static fields)")
+          .$("Thread stacks")
+          .$("In-flight exceptions")
+          .$("JNI global references")
+          .$("The finalizer queue")
+          .$("The interned String pool")
+          .$("etc. (VM-dependent)")
+        )
+    ));
+
     deck.add(new Slide("The GC can't do everything.").add(bullets()
         .$("Some things require manual cleanup.", bullets()
             .$("Listeners")
@@ -172,7 +185,7 @@ public class Main {
         Code.parseFile(PATH + "WeakPhantomReference.java")
     ));
 
-    deck.add(new Slide("Let's replace a finalizer.").add(
+    deck.add(new Slide("Let's replace a finalizer!").add(
         Code.parseFile(PATH + "eg2/NativeMemory.java")));
 
     deck.add(new Slide("The reference").add(
@@ -190,27 +203,15 @@ public class Main {
         new Text("*Usage:  |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
     ));
 
-    deck.add(new Slide("Reachability").add(bullets()
-        .$("An object is _reachable_ if a live thread can access it.")
-        .$("Examples of heap roots:", bullets()
-          .$("System classes (which have static fields)")
-          .$("Thread stacks")
-          .$("In-flight exceptions")
-          .$("JNI global references")
-          .$("The finalizer queue")
-          .$("The interned String pool")
-          .$("etc. (VM-dependent)")
-        )
-    ));
-
-
     highlightBullets(deck, "Dante's Heap - The Levels of Reachability",
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
-//    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
-//    tracer.addSlides();
+    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
+    tracer.addSlides();
 
+    deck.add(new Slide()
+        .background(Picture.parseFile("images/javaone09/thankyou.png")));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }
