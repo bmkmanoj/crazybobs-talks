@@ -187,7 +187,7 @@ public class Main {
     deck.add(new Slide("|MapMaker|").add(
         Code.parseFile(PATH + "GetterMethods.java"),
         Spacer.vertical(20),
-        new Text("*Usage: |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
+        new Text("*Usage:  |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
     ));
 
     deck.add(new Slide("Reachability").add(bullets()
