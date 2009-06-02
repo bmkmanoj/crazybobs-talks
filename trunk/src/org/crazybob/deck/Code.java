@@ -13,9 +13,15 @@ import java.io.IOException;
 public class Code extends Element {
 
   final List<String> lines;
+  int scale = 100;
 
   Code(List<String> lines) {
     this.lines = lines;
+  }
+
+  public Code scale(int percent) {
+    this.scale = percent;
+    return this;
   }
 
   public static Code parseFile(String path) {
@@ -37,7 +43,7 @@ public class Code extends Element {
 
   void writePdf(Deck deck, ColumnText column) throws DocumentException {
     Template template = deck.template;
-    Font font = template.codeFont();
+    Font font = template.codeFont().scale(scale);
     for (String line : lines) {
       String trimmed = line.trim();
       if (trimmed.startsWith("///")) {
