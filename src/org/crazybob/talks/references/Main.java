@@ -207,7 +207,7 @@ public class Main {
         new Text("*Usage:  |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
     ));
 
-    highlightBullets(deck, "Dante's Heap - The Levels of Reachability",
+    highlightBullets(deck, "Recap: The Levels of Reachability",
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
