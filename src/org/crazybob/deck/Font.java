@@ -1,8 +1,12 @@
 package org.crazybob.deck;
 
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.pdf.BaseFont;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import static org.crazybob.deck.Objects.nonNull;
 
@@ -56,7 +60,7 @@ public class Font {
     this.face = nonNull(face);
     this.leading = leading;
     this.pdfFont = new com.lowagie.text.Font(face.id, Deck.ptsToPixels(size),
-        style.id, color);
+      style.id, color);
     this.color = nonNull(color);
     this.size = size;
     this.style = nonNull(style);

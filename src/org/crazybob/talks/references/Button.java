@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 public class Button {
+  public interface Listener {
+    void onClick();
+  }
   private final List<WeakReference<Listener>> listeners
       = new ArrayList<WeakReference<Listener>>();
   public void add(Listener l) {
@@ -16,8 +19,5 @@ public class Button {
       if (l == null) i.remove();
       else l.onClick();
     }
-  }
-  public interface Listener {
-    void onClick();
   }
 }

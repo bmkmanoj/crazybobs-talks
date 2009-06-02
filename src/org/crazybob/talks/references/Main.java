@@ -42,12 +42,17 @@ public class Main {
         .$("Tools at your disposal:", bullets()
             .$("|finally|")
             .$("Overriding |Object.finalize()|")
-            .$("Reference queues")
+            .$("References (and reference queues)")
         )
     ));
 
     deck.add(new Slide("Try |finally| first.").add(bullets()
-        .$("Reasons to not use |finally|:", bullets()
+        .$("Pros:", bullets()
+            .$("More straightforward")
+            .$("Handles exceptions in main thread")
+            .$("Ensures cleanup keeps pace")
+        )
+        .$("Cons:", bullets()
             .$("More work for programmers")
             .$("More error prone")
             .$("Cleanup happens in main thread")
@@ -56,51 +61,48 @@ public class Main {
     ));
 
     deck.add(new Slide("What is a finalizer?").add(
+        new Text("A callback used by the garbage collector to notify an object"
+            + " when it is about to be reclaimed:"),
+        Spacer.vertical(60),
         Code.parseFile(PATH + "eg1/Foo.java")
     ));
 
     deck.add(new Slide("Finalizers are seductively simple, but...").add(bullets()
         .$("They're not guaranteed to run, especially not timely.")
-        .$("Avoid |System.runFinalizersOnExit()| and |runFinalization()|.")
+        .$("Avoid |System.runFinalizersOnExit()| and\n    |runFinalization()|.")
         .$("Undefined threading model, can run concurrently!")
         .$("You must call |super.finalize()|.")
         .$("Exceptions are ignored (per spec).")
         .$("You can resurrect references.")
         .$("Keeps objects alive longer.")
-        .$("Can make allocation/reclamation 430X slower (Bloch, Effective Java)")
+        .$("Can make allocation/reclamation 430X slower\n    (Bloch, _Effective Java_)")
     ));
 
-    deck.add(new Slide("An external resource").add(
+    deck.add(new Slide("Example").add(
         Code.parseFile(PATH + "nm/NativeMemory.java")));
 
     Slide s = new Slide("Let's play War!").add(
         new Text("|SegfaultFactory| can cause a segfault if its finalizer"
-            + " executes after |NativeResource|'s."),
-        Spacer.vertical(40),
+            + " executes after |NativeMemory|'s:"),
+        Spacer.vertical(60),
         Code.parseFile(PATH + "nm/SegfaultFactory.java")
     );
     s.add(Picture.parseFile("images/references/war.jpg")
         .position(950, 350));
     deck.add(s);
 
-    deck.add(new Slide("Use protection.").add(
+    deck.add(new Slide("Always use protection.").add(
         Code.parseFile(PATH + "snm/NativeMemory.java")));
 
-    deck.add(new Slide("Finalizers are good for one thing.").add(
+    deck.add(new Slide("Basically, finalizers are good for one thing.").add(
         new Text("Logging warnings")));
 
-    deck.add(new Slide("The alternative").add(
-        new Text("An API-based approach:"),
-        Spacer.vertical(30),
-        Code.parseFile(PATH + "WeakReference.java")
+    deck.add(new Slide("|package java.lang.ref|").add(
+        Code.parseFile(PATH + "ref.api").scale(90)
     ));
 
-    deck.add(new Slide("What is a finalizer?").add(
+    deck.add(new Slide("Can you hear me now?").add(
         Code.parseFile(PATH + "Button.java")
-    ));
-
-    deck.add(new Slide("The alternative").add(
-        Code.parseFile(PATH + "ReferenceQueue.java")
     ));
     
     deck.add(new Slide("Reachability").add(bullets()
@@ -124,8 +126,8 @@ public class Main {
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
         "Unreachable");
 
-    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
-    tracer.addSlides();
+//    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
+//    tracer.addSlides();
 
     deck.add(new Slide("Weak references aren't for caching!").add(bullets()
         .$("Many collectors will reclaim weak refs immediately.")
