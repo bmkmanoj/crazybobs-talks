@@ -71,22 +71,20 @@ public class Main {
     ));
 
     deck.add(new Slide("An external resource").add(
-        Code.parseFile(PATH + "NativeResource.java")));
+        Code.parseFile(PATH + "nm/NativeMemory.java")));
 
     Slide s = new Slide("Let's play War!").add(
         new Text("|SegfaultFactory| can cause a segfault if its finalizer"
             + " executes after |NativeResource|'s."),
         Spacer.vertical(40),
-        Code.parseFile(PATH + "SegfaultFactory.java")
+        Code.parseFile(PATH + "nm/SegfaultFactory.java")
     );
     s.add(Picture.parseFile("images/references/war.jpg")
         .position(950, 350));
     deck.add(s);
 
     deck.add(new Slide("Use protection.").add(
-        new Text("Extend |NativeResource| and make it safe."),
-        Spacer.vertical(40),
-        Code.parseFile(PATH + "SafeNativeResource.java")));
+        Code.parseFile(PATH + "snm/NativeMemory.java")));
 
     deck.add(new Slide("Finalizers are good for one thing.").add(
         new Text("Logging warnings")));
@@ -95,6 +93,10 @@ public class Main {
         new Text("An API-based approach:"),
         Spacer.vertical(30),
         Code.parseFile(PATH + "WeakReference.java")
+    ));
+
+    deck.add(new Slide("What is a finalizer?").add(
+        Code.parseFile(PATH + "Button.java")
     ));
 
     deck.add(new Slide("The alternative").add(

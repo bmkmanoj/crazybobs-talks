@@ -88,14 +88,14 @@ public class JavaOne09 implements Template {
   }
 
   public Font codeFont() {
-    return new Font(Font.Face.COURIER, 20, Font.Style.BOLD, BLACK, 26);
+    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, BLACK, 21);
   }
 
   public Font highlightedCodeFont() {
-    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, Color.BLUE, 28);
+    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, Color.BLUE, 21);
   }
 
   public Font badCodeFont() {
-    return new Font(Font.Face.COURIER, 22, Font.Style.BOLD, Color.RED, 28);
+    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, Color.RED, 21);
   }
 }
