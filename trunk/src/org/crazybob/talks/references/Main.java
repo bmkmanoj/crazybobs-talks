@@ -7,10 +7,14 @@ import org.crazybob.deck.Code;
 import org.crazybob.deck.Text;
 import org.crazybob.deck.Bullets;
 import org.crazybob.deck.Spacer;
+import org.crazybob.deck.Box;
+import org.crazybob.deck.Font;
 import org.crazybob.deck.dot.DiGraph;
 import org.crazybob.deck.dot.Node;
 import org.crazybob.deck.dot.Link;
 import org.crazybob.deck.templates.JavaOne09;
+
+import java.awt.Color;
 
 public class Main {
 
@@ -69,13 +73,14 @@ public class Main {
 
     deck.add(new Slide("Finalizers are seductively simple, but...").add(bullets()
         .$("They're not guaranteed to run, especially not timely.")
-        .$("Avoid |System.runFinalizersOnExit()| and\n    |runFinalization()|.")
-        .$("Undefined threading model, can run concurrently!")
-        .$("You must call |super.finalize()|.")
+        .$("Undefined threading model; they can run concurrently!")
+        .$("You must remember to call |super.finalize()|.")
         .$("Exceptions are ignored (per spec).")
         .$("You can resurrect references.")
-        .$("Keeps objects alive longer.")
-        .$("Can make allocation/reclamation 430X slower\n    (Bloch, _Effective Java_)")
+        .$("They keep objects alive longer than necessary.")
+        .$("They can make allocation/reclamation 430X slower!"
+            + "\n    (Bloch, _Effective Java_)")
+        .$("Worst of all, they messed up the reference API.")
     ));
 
     deck.add(new Slide("Example").add(
@@ -94,17 +99,97 @@ public class Main {
     deck.add(new Slide("Always use protection.").add(
         Code.parseFile(PATH + "snm/NativeMemory.java")));
 
-    deck.add(new Slide("Basically, finalizers are good for one thing.").add(
-        new Text("Logging warnings")));
+    s = new Slide("Basically, finalizers are good for one thing.").add(
+        new Text("Logging warnings:"),
+        Spacer.vertical(40),
+        Code.parseFile(PATH + "Connection.java"));
+    deck.add(s.copy());
+    s.add(new Box(400, 800, 0, 0).add(
+        new Text("Unless you want to disable the warnings.")
+            .font(new Font(Font.Face.HELVETICA, 24, Font.Style.BOLD, Color.RED))));
+    deck.add(s);
+
+    deck.add(new Slide("The alternative: The Reference API").add(bullets()
+        .$("|@since 1.2|")
+        .$("Reference types", bullets()
+          .$("*Soft:* for caching")
+          .$("*Weak:* for fast cleanup (pre-finalizer)")
+          .$("*Phantom:* for safe cleanup (post-finalizer)")
+        )
+        .$("*Reference queues:* for notifications")
+    ));
 
     deck.add(new Slide("|package java.lang.ref|").add(
         Code.parseFile(PATH + "ref.api").scale(90)
     ));
 
-    deck.add(new Slide("Can you hear me now?").add(
+    deck.add(new Slide("Soft references").add(bullets()
+        .$("Cleared when the VM runs low on memory", bullets()
+            .$("_Hopefully_ in LRU fashion")
+        )
+        .$("Tuned with |-XX:SoftRefLRUPolicyMSPerMB|", bullets()
+          .$("How long to retain soft refs in _ms per free MB of heap_")
+          .$("*Default:* 1000ms")
+        )
+    ));
+
+    deck.add(new Slide("Use soft references judiciously.").add(bullets()
+        .$("For quick-and-dirty caching only")
+        .$("Soft refs have no notion of _weight_:", bullets()
+          .$("Memory usage")
+          .$("Computation time")
+          .$("CPU usage")
+        )
+        .$("Soft refs can exacerbate low memory conditions.")
+    ));
+
+    deck.add(new Slide("Weak references").add(bullets()
+        .$("Cleared as soon as no strong or soft refs remain.")        
+        .$("Cleared ASAP, before the finalizer runs.")
+        .$("Not for caching! Use soft references, as intended:"),
+        Spacer.vertical(50),
+        new Text("_ÒVirtual machine implementations are encouraged"
+            + " to bias against clearing recently-created or recently-used"
+            + " soft references.Ó_"),
+        Spacer.vertical(30),
+        new Text("- The |SoftReference| documentation").scale(75)
+    ));
+
+    deck.add(new Slide("_Can you hear me now?_").add(
         Code.parseFile(PATH + "Button.java")
     ));
-    
+
+    deck.add(new Slide("Phantom references").add(bullets()
+        .$("Enqueued after no other references remain, _post-finalizer_.", bullets()
+          .$("Can suffer similar problems to finalizers."))        
+        .$("Must be cleared manually, for no good reason.")
+        .$("|get()| always returns |null|.", bullets()
+          .$("So you must use a reference queue.")
+        )
+    ));
+
+    deck.add(new Slide("Accessing a phantom referent").add(
+        Code.parseFile(PATH + "WeakPhantomReference.java")
+    ));
+
+    deck.add(new Slide("Let's replace a finalizer.").add(
+        Code.parseFile(PATH + "eg2/NativeMemory.java")));
+
+    deck.add(new Slide("The reference").add(
+        Code.parseFile(PATH + "eg2/NativeMemoryReference.java")));
+
+    deck.add(new Slide("The manager").add(
+        Code.parseFile(PATH + "eg2/NativeMemoryManager.java")));
+
+    deck.add(new Slide("The manager _with Google Collections_").add(
+        Code.parseFile(PATH + "eg3/NativeMemoryManager.java")));
+
+    deck.add(new Slide("|MapMaker|").add(
+        Code.parseFile(PATH + "GetterMethods.java"),
+        Spacer.vertical(20),
+        new Text("*Usage: |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
+    ));
+
     deck.add(new Slide("Reachability").add(bullets()
         .$("An object is _reachable_ if a live thread can access it.")
         .$("Examples of heap roots:", bullets()
@@ -118,9 +203,6 @@ public class Main {
         )
     ));
 
-    deck.add(new Slide("Making maps").add(
-        Code.parseFile(PATH + "BytecodeCache.java")
-    ));
 
     highlightBullets(deck, "Dante's Heap - The Levels of Reachability",
         "Strong", "Soft", "Weak", "Finalizer", "Phantom, JNI weak",
@@ -129,16 +211,6 @@ public class Main {
 //    MarkAndSweep tracer = new MarkAndSweep(deck, 12);
 //    tracer.addSlides();
 
-    deck.add(new Slide("Weak references aren't for caching!").add(bullets()
-        .$("Many collectors will reclaim weak refs immediately.")
-        .$("Use soft reference for caching, as intended:"),
-        Spacer.vertical(50),
-        new Text("_ÒVirtual machine implementations are encouraged"
-            + " to bias against clearing recently-created or recently-used"
-            + " soft references.Ó_"),
-        Spacer.vertical(30),
-        new Text("- The |SoftReference| documentation").scale(75)
-    ));
 
     deck.writePdf(new JavaOne09(), "out/references.pdf", true);
   }

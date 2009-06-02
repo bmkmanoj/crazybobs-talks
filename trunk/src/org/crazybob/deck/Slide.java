@@ -24,6 +24,14 @@ public class Slide {
     this.title = title;
   }
 
+  public Slide copy() {
+    Slide copy = new Slide(title);
+    copy.inlineElements.addAll(inlineElements);
+    copy.positionedElement.addAll(positionedElement);
+    copy.background = background;
+    return copy;
+  }
+
   public Slide background(Picture background) {
     this.background = background;
     return this;
