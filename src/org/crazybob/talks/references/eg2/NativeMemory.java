@@ -3,6 +3,9 @@ public class NativeMemory {
   final int address = allocate();
   /** Allocates native memory. */
   static native int allocate();
+/// HIGHLIGHT
+  NativeMemory() {}
+/// NORMAL
 
   /** Writes to native memory. */
   public void write(byte[] data) {
