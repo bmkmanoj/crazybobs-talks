@@ -156,6 +156,10 @@ public class Main {
         .$("Soft refs can exacerbate low memory conditions.")
     ));
 
+    deck.add(new Slide("Caching a file").add(
+        Code.parseFile(PATH + "CachedFile.java")
+    ));
+
     deck.add(new Slide("Weak references").add(bullets()
         .$("Cleared as soon as no strong or soft refs remain.")        
         .$("Cleared ASAP, before the finalizer runs.")
