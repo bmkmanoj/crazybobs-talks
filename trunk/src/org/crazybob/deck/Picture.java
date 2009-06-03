@@ -74,7 +74,39 @@ public abstract class Picture extends PositionedElement {
     }
 
     void writePdf(Deck deck) throws DocumentException {
-      image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
+      int oldW = (int) image.getWidth();
+      int oldH = (int) image.getHeight();
+
+      Margins contentMargins = deck.template.contentMargins();
+
+      if (fill) {
+        // try filling vertically
+        int newH = contentMargins.height();
+        int newW = oldW * newH / oldH;
+        if (newW <= contentMargins.width()) {
+          image.scaleAbsolute(newW, newH);
+        } else {
+          newW = contentMargins.width();
+          image.scaleAbsolute(newW, oldH * newW / oldW);
+        }
+      } else {
+        if (this.w > -1) {
+          image.scaleAbsolute(w, oldH * w / oldW);
+        } else if (this.h > -1) {
+          image.scaleAbsolute(oldW * h / oldH, h);
+        }
+      }
+
+      if (center) {
+        image.setAbsolutePosition(
+            contentMargins.centerX() - image.getScaledWidth() / 2,
+            Deck.HEIGHT - contentMargins.centerY()
+                - image.getScaledHeight() / 2
+        );
+      } else {
+        image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
+      }
+
       deck.document.add(image);
     }
   }
