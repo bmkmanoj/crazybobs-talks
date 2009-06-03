@@ -201,6 +201,12 @@ public class Main {
         Code.parseFile(PATH + "WeakPhantomReference.java")
     ));
 
+    deck.add(new Slide("Don't forget...").add(
+      new Text("The GC runs concurrently with your code:"),
+      Spacer.vertical(60),
+      Code.parseFile(PATH + "RaceTheCollector.java")
+    ));
+
     deck.add(new Slide("|java.util.WeakHashMap|").add(bullets()
       .$("Useful for emulating additional fields")
       .$("Keeps weak refs to keys, strong refs to values")
@@ -228,12 +234,6 @@ public class Main {
 
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
-
-    deck.add(new Slide("Don't forget...").add(
-      new Text("The GC runs concurrently with your code:"),
-      Spacer.vertical(60),
-      Code.parseFile(PATH + "RaceTheCollector.java")
-    ));
 
     deck.add(new Slide("Brought to you by the letters J, A, V & A...")
         .add(Picture.parseFile("images/references/ide.png")
