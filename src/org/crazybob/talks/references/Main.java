@@ -163,7 +163,7 @@ public class Main {
     deck.add(new Slide("Weak references").add(bullets()
         .$("Cleared as soon as no strong or soft refs remain.")        
         .$("Cleared ASAP, before the finalizer runs.")
-        .$("Not for caching! Use soft references, as intended:"),
+        .$("*Not for caching!* Use soft references, as intended:"),
         Spacer.vertical(50),
         new Text("_ÒVirtual machine implementations are encouraged"
             + " to bias against clearing recently-created or recently-used"
