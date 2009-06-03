@@ -209,6 +209,7 @@ public class Main {
     ));
 
     deck.add(new Slide("Google Collections |MapMaker|").add(bullets()
+      .$("Near drop-in replacement for |WeakHashMap|")
       .$("Strong, soft, or weak key and/or value references")
       .$("Concurrent, cleans up in background thread")
       .$("Uses |==| to compare weak and soft referents")
@@ -227,6 +228,16 @@ public class Main {
 
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
+
+    deck.add(new Slide("Don't forget...").add(
+      new Text("The GC runs concurrently with your code:"),
+      Spacer.vertical(60),
+      Code.parseFile(PATH + "RaceTheCollector.java")
+    ));
+
+    deck.add(new Slide("Brought to you by the letters J, A, V & A...")
+        .add(Picture.parseFile("images/references/ide.png")
+        .fill().center()));
 
     deck.add(new Slide()
         .background(Picture.parseFile("images/javaone09/thankyou.png")));
