@@ -185,10 +185,6 @@ public class Main {
         )
     ));
 
-    deck.add(new Slide("Accessing a phantom referent").add(
-        Code.parseFile(PATH + "WeakPhantomReference.java")
-    ));
-
     deck.add(new Slide("Let's replace a finalizer!").add(
         Code.parseFile(PATH + "eg2/NativeMemory.java")));
 
@@ -201,7 +197,25 @@ public class Main {
     deck.add(new Slide("The manager _with Google Collections_").add(
         Code.parseFile(PATH + "eg3/NativeMemoryManager.java")));
 
-    deck.add(new Slide("|MapMaker|").add(
+    deck.add(new Slide("*Tip:* accessing a phantom referent").add(
+        Code.parseFile(PATH + "WeakPhantomReference.java")
+    ));
+
+    deck.add(new Slide("|java.util.WeakHashMap|").add(bullets()
+      .$("Useful for emulating additional fields")
+      .$("Keeps weak refs to keys, strong refs to values")
+      .$("Not concurrent")
+      .$("Uses |equals()| when it should use |==|")
+    ));
+
+    deck.add(new Slide("Google Collections |MapMaker|").add(bullets()
+      .$("Strong, soft, or weak key and/or value references")
+      .$("Concurrent, cleans up in background thread")
+      .$("Uses |==| to compare weak and soft referents")
+      .$("Supports on-demand computation of values")
+    ));
+
+    deck.add(new Slide("Google Collections |MapMaker|").add(
         Code.parseFile(PATH + "GetterMethods.java"),
         Spacer.vertical(20),
         new Text("*Usage:  |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
