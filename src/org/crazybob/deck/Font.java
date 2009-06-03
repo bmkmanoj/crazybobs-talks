@@ -59,8 +59,13 @@ public class Font {
   public Font(Face face, int size, Style style, Color color, int leading) {
     this.face = nonNull(face);
     this.leading = leading;
+    int styleId = style.id;
+    if (face == Face.COURIER) {
+      if (style == Style.NORMAL) styleId = Style.BOLD.id;
+      else if (style == Style.ITALIC) styleId = Style.BOLD_ITALIC.id;
+    }
     this.pdfFont = new com.lowagie.text.Font(face.id, Deck.ptsToPixels(size),
-      style.id, color);
+        styleId, color);
     this.color = nonNull(color);
     this.size = size;
     this.style = nonNull(style);
