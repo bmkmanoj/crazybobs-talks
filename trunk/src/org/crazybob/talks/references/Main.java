@@ -235,9 +235,13 @@ public class Main {
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
 
-    deck.add(new Slide("Brought to you by the letters J, A, V & A...")
+    deck.add(new Slide()
         .add(Picture.parseFile("images/references/ide.png")
-        .fill().center()));
+        .fill().center())
+        .add(new Box(50, 90, 36, Deck.HEIGHT - 180)
+            .add(new Text("This talk was brought to you by the letters"
+        + " J, A, V & A.").font(new Font(Font.Face.HELVETICA, 30,
+              Font.Style.NORMAL, JavaOne09.BLUE)))));
 
     deck.add(new Slide()
         .background(Picture.parseFile("images/javaone09/thankyou.png")));
