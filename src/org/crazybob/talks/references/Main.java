@@ -13,6 +13,7 @@ import org.crazybob.deck.dot.DiGraph;
 import org.crazybob.deck.dot.Node;
 import org.crazybob.deck.dot.Link;
 import org.crazybob.deck.templates.JavaOne09;
+import org.crazybob.deck.templates.JavaZone;
 
 import java.awt.Color;
 
@@ -161,7 +162,7 @@ public class Main {
     ));
 
     deck.add(new Slide("Weak references").add(bullets()
-        .$("Cleared as soon as no strong or soft refs remain.")        
+        .$("Cleared as soon as no strong or soft refs remain.")
         .$("Cleared ASAP, before the finalizer runs.")
         .$("*Not for caching!* Use soft references, as intended:"),
         Spacer.vertical(50),
@@ -178,7 +179,7 @@ public class Main {
 
     deck.add(new Slide("Phantom references").add(bullets()
         .$("Enqueued after no other references remain, _post-finalizer_.", bullets()
-          .$("Can suffer similar problems to finalizers."))        
+          .$("Can suffer similar problems to finalizers."))
         .$("Must be cleared manually, for no good reason.")
         .$("|get()| always returns |null|.", bullets()
           .$("So you must use a reference queue.")
@@ -243,10 +244,10 @@ public class Main {
         + " J, A, V & A.").font(new Font(Font.Face.HELVETICA, 30,
               Font.Style.NORMAL, JavaOne09.BLUE)))));
 
-    deck.add(new Slide()
-        .background(Picture.parseFile("images/javaone09/thankyou.png")));
+//    deck.add(new Slide()
+//        .background(Picture.parseFile("images/javaone09/thankyou.png")));
 
-    deck.writePdf(new JavaOne09(), "out/references.pdf", true);
+    deck.writePdf(new JavaZone(), "out/references.pdf", true);
   }
 
   private static void highlightBullets(Deck deck, String title,
@@ -300,9 +301,9 @@ public class Main {
         Picture.parseDot(heap.toString()).fill().center()));
 
     d.fillColor("lightgrey").lineColor("lightgrey");
-    e.fillColor("lightgrey").lineColor("lightgrey");    
+    e.fillColor("lightgrey").lineColor("lightgrey");
     de.color("lightgrey");
-    eb.color("lightgrey");    
+    eb.color("lightgrey");
 
     deck.add(new Slide("We can no longer reach D or E.").add(
         Picture.parseDot(heap.toString()).fill().center()));

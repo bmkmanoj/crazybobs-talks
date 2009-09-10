@@ -110,7 +110,7 @@ public class Deck {
       if (open) {
         try {
           Runtime.getRuntime().exec(
-              new String[] { "open", "out/references.pdf" });
+              new String[] { "open", path });
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
