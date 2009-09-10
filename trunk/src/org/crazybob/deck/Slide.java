@@ -55,10 +55,14 @@ public class Slide {
   void writePdf(Deck deck) throws DocumentException {
     Template template = deck.template;
 
-    Image backgroundImage = background == null
-        ? template.defaultBackground().asBackgroundImage()
-        : background.asBackgroundImage();
-    deck.document.add(backgroundImage);
+    if (background != null) {
+      deck.document.add(background.asBackgroundImage());
+    } else {
+      Picture defaultBackground = template.defaultBackground();
+      if (defaultBackground != null) {
+        deck.document.add(defaultBackground.asBackgroundImage());
+      }
+    }
 
     if (title != null) {
       ColumnText column = new ColumnText(deck.writer.getDirectContent());

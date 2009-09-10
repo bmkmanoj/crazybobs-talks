@@ -57,8 +57,8 @@ public class Code extends Element {
         } else if (command.startsWith("...")) {
           String indent = line.substring(0, line.indexOf("///"));
           String comment = command.substring(3).trim();
-          if (comment.isEmpty()) {
-            column.addElement(font.newParagraph(indent + "..."));            
+          if (comment.trim().equals("")) {
+            column.addElement(font.newParagraph(indent + "..."));
           } else {
             column.addElement(font.newParagraph(indent + "... // " + comment));
           }
@@ -69,7 +69,7 @@ public class Code extends Element {
         continue;
       } else if (trimmed.equals("return null;")) {
         continue;
-      } else if (trimmed.isEmpty()) {
+      } else if (trimmed.trim().equals("")) {
         column.addElement(font.newParagraph(" "));
       } else {
         column.addElement(font.newParagraph(line));
