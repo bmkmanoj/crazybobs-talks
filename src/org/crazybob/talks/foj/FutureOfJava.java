@@ -1,5 +1,6 @@
 package org.crazybob.talks.foj;
 
+import org.crazybob.deck.Box;
 import org.crazybob.deck.Bullets;
 import org.crazybob.deck.Code;
 import org.crazybob.deck.Deck;
@@ -191,7 +192,13 @@ public class FutureOfJava {
 
     deck.add(new Slide("The moral of this story...").add(bullets()
         .$("Arrays and generics don't mix.")
+        .$("Varargs should have used |List|.")
     ));
+
+    deck.add(new Slide()
+        .add(new Box(400, 775, 0, 0).add(
+            new Text("*JSR-330:* Dependency Injection for Java")))
+        .background(Picture.parseFile("images/misc/syringe.jpg")));
 
     deck.writePdf(new Plain(), "out/foj.pdf", true);
   }
