@@ -13,7 +13,11 @@ import java.io.OutputStream;
  *
  */
 public abstract class Picture extends PositionedElement {
-  
+
+  public enum Layout {
+    
+  }
+
   int x = -1, y = -1, w = -1, h = -1;
   boolean center, fill;
 
@@ -164,7 +168,7 @@ public abstract class Picture extends PositionedElement {
           image.setAbsolutePosition(
               contentMargins.centerX() - image.getScaledWidth() / 2,
               Deck.HEIGHT - contentMargins.centerY()
-                  - image.getScaledHeight() / 2 
+                  - image.getScaledHeight() / 2
           );
         } else {
           image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
