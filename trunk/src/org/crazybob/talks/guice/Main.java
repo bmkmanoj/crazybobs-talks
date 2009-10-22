@@ -2,21 +2,10 @@ package org.crazybob.talks.guice;
 
 import org.crazybob.deck.Deck;
 import org.crazybob.deck.Slide;
-import org.crazybob.deck.Picture;
 import org.crazybob.deck.Code;
 import org.crazybob.deck.Text;
 import org.crazybob.deck.Bullets;
-import org.crazybob.deck.Spacer;
-import org.crazybob.deck.Box;
-import org.crazybob.deck.Font;
-import org.crazybob.deck.dot.DiGraph;
-import org.crazybob.deck.dot.Node;
-import org.crazybob.deck.dot.Link;
-import org.crazybob.deck.templates.JavaOne09;
-import org.crazybob.deck.templates.JavaZone;
-import org.crazybob.talks.references.MarkAndSweep;
-
-import java.awt.Color;
+import org.crazybob.deck.templates.Plain;
 
 public class Main {
 
@@ -37,7 +26,7 @@ public class Main {
         .$("Easier unit testing")
     ));
 
-    deck.writePdf(new JavaZone(), "out/guice.pdf", true);
+    deck.writePdf(new Plain(), "out/guice.pdf", true);
   }
 
   private static void highlightBullets(Deck deck, String title,

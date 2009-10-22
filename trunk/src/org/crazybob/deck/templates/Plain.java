@@ -13,7 +13,7 @@ import org.crazybob.deck.Spacer;
 import java.awt.*;
 import static java.awt.Color.BLACK;
 
-public class JavaZone implements Template {
+public class Plain implements Template {
 
   public static final Color BLUE = new Color(31, 84, 123);
   public static final Color LIGHT_BLUE = new Color(81, 125, 156);
@@ -28,7 +28,7 @@ public class JavaZone implements Template {
 
     Box titleBox = new Box(100, 625, 50, 50);
 
-    Font titleFont = new Font(Font.Face.HELVETICA, 24, Font.Style.NORMAL,
+    Font titleFont = new Font(Font.Face.HELVETICA, 42, Font.Style.NORMAL,
         BLUE);
     titleBox.add(new Text(deck.title()).font(titleFont));
     titleBox.add(new Text(deck.subtitle()).font(titleFont));
@@ -36,9 +36,9 @@ public class JavaZone implements Template {
     titleBox.add(Spacer.vertical(20));
 
     titleBox.add(new Text(deck.author()).font(
-        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, GRAY)));
+        new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, GRAY)));
     titleBox.add(new Text(deck.company()).font(
-        new Font(Font.Face.HELVETICA, 16, Font.Style.NORMAL, GRAY)));
+        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, GRAY)));
 
     titleSlide.add(titleBox);
 
