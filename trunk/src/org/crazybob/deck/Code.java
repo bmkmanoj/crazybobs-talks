@@ -69,6 +69,8 @@ public class Code extends Element {
         continue;
       } else if (trimmed.equals("return null;")) {
         continue;
+      } else if (trimmed.equals("return -1;")) {
+        continue;
       } else if (trimmed.trim().equals("")) {
         column.addElement(font.newParagraph(" "));
       } else {

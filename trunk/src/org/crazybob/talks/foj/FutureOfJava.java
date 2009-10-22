@@ -47,7 +47,6 @@ public class FutureOfJava {
     deck.add(new Slide("Let's talk about...").add(bullets()
         .$("Project Coin")
         .$("JSR-330: Dependency Injection for Java")
-        .$("MapMaker")
     ));
 
     deck.add(new Slide("Project Coin").add(
@@ -156,17 +155,20 @@ public class FutureOfJava {
     ));
 
     deck.add(new Slide("What does this program print?").add(
+        Code.parseFile(PATH + "varargs/before/StringSink.java")
+    ));
+    deck.add(new Slide("What does this program print?").add(
         Code.parseFile(PATH + "varargs/before/StringSink.java"),
         Spacer.vertical(40),
         new Text("a) StringSink@32c41a"),
-        new Text("b) [\"cyanide\"]"),
+        new Text("b) [\"seppuku\"]"),
         new Text("c) Nothing. It throws an exception.")
     ));
     deck.add(new Slide("If you answered C, you're correct!").add(
         Code.parseFile(PATH + "varargs/before2/StringSink.java"),
         Spacer.vertical(40),
         new Text("a) StringSink@32c41a"),
-        new Text("b) [\"cyanide\"]"),
+        new Text("b) [\"seppuku\"]"),
         new Text("*c) Nothing. It throws |ClassCastException|.*")
     ));
     deck.add(new Slide("Let's look at |Sink| again...").add(
@@ -199,6 +201,60 @@ public class FutureOfJava {
         .add(new Box(400, 775, 0, 0).add(
             new Text("*JSR-330:* Dependency Injection for Java")))
         .background(Picture.parseFile("images/misc/syringe.jpg")));
+
+    deck.add(new Slide("package |javax.inject|").add(
+        Picture.parseFile("images/misc/jsr330-api.png").center()));
+
+    deck.add(new Slide("For example").add(
+        Code.parseFile(PATH + "jsr330/constructor/Stopwatch.java")
+    ));
+    deck.add(new Slide("We could construct the time source directly.").add(
+        Code.parseFile(PATH + "jsr330/constructor2/Stopwatch.java")
+    ));
+    deck.add(new Slide("Or use a factory.").add(
+        Code.parseFile(PATH + "jsr330/factory/Stopwatch.java")
+    ));
+    deck.add(new Slide("|@Inject| provides the best of both worlds.").add(
+        Code.parseFile(PATH + "jsr330/inject/Stopwatch.java")
+    ));
+
+    deck.add(new Slide("Testing against a factory").add(
+        Code.parseFile(PATH + "jsr330/factory/StopwatchTest.java")
+    ));
+    deck.add(new Slide("Testing against a factory _the right way_").add(
+        Code.parseFile(PATH + "jsr330/factory2/StopwatchTest.java")
+    ));
+    deck.add(new Slide("Testing using |@Inject|").add(
+        Code.parseFile(PATH + "jsr330/inject/StopwatchTest.java")
+    ));
+
+    revealBullets(deck, "|@Inject| vs. the factory pattern",
+        "Unit testing is easier.",
+        "You don't need to write the factory.",
+        "Easier modularization.",
+        "We can reuse |Stopwatch| with different time sources.",
+        "Even concurrently.",
+        "Unlike the service loader pattern...",
+        "We can verify dependencies at build time."
+        );
+
+    revealBullets(deck, "JSR-330 itself",
+        "100% open",
+        "Hosted on Google Code Hosting",
+        "EG mailing list is publicly readable.",
+        "Spec, RI and TCK are all Apache-licensed.",
+        "Fasted JSR ever: proposed to final in 4.5 months!"
+        );
+
+    deck.add(new Slide("Other cool stuff").add(
+        fillRight(Picture.parseFile("images/misc/icecream.jpg"), 555, 740)
+    ).add(bullets()
+        .$("Modules")
+        .$("New sorting routines")
+        .$("The G1 collector")
+        .$("MapMaker")
+    ));
+
 
     deck.writePdf(new Plain(), "out/foj.pdf", true);
   }

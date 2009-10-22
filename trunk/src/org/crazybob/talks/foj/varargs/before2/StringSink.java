@@ -13,7 +13,7 @@ class StringSink extends Sink<String> {
   public static void main(String[] args) {
     Sink<String> ss = new StringSink();
     /// BAD
-    ss.addUnlessNull("cyanide"); // ClassCastException!
+    ss.addUnlessNull("seppuku"); // ClassCastException!
     /// NORMAL
     System.out.println(ss);
   }
