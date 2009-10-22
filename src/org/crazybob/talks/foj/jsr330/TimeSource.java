@@ -7,5 +7,5 @@ package org.crazybob.talks.foj.jsr330;
  * Time: 9:39:50 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TimeSource {
+public interface TimeSource {
 }

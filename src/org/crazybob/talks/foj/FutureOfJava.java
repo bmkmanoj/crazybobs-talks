@@ -221,6 +221,12 @@ public class FutureOfJava {
     deck.add(new Slide("Testing against a factory").add(
         Code.parseFile(PATH + "jsr330/factory/StopwatchTest.java")
     ));
+    deck.add(new Slide("Testing against a factory").add(
+        Code.parseFile(PATH + "jsr330/factory/StopwatchTest.java"))
+        .add(Spacer.vertical(30),
+          new Text("*See the problem?*")
+    ));
+
     deck.add(new Slide("Testing against a factory _the right way_").add(
         Code.parseFile(PATH + "jsr330/factory2/StopwatchTest.java")
     ));
@@ -228,9 +234,14 @@ public class FutureOfJava {
         Code.parseFile(PATH + "jsr330/inject/StopwatchTest.java")
     ));
 
+    deck.add(new Slide("Scoping a dependency").add(
+        Code.parseFile(PATH + "jsr330/AtomicClock.java")
+    ));
+
     revealBullets(deck, "|@Inject| vs. the factory pattern",
         "Unit testing is easier.",
         "You don't need to write the factory.",
+        "Scopes are declarative--no more hand-written DCL.",
         "Easier modularization.",
         "We can reuse |Stopwatch| with different time sources.",
         "Even concurrently.",
@@ -239,12 +250,17 @@ public class FutureOfJava {
         );
 
     revealBullets(deck, "JSR-330 itself",
-        "100% open",
+        "Most open JSR ever",
         "Hosted on Google Code Hosting",
         "EG mailing list is publicly readable.",
+        "Public observer list and issue tracker",
         "Spec, RI and TCK are all Apache-licensed.",
         "Fasted JSR ever: proposed to final in 4.5 months!"
         );
+
+    deck.add(new Slide("Next step: Configuration").add(
+        Code.parseFile(PATH + "jsr330/TimeModule.j")
+    ));
 
     deck.add(new Slide("Other cool stuff").add(
         fillRight(Picture.parseFile("images/misc/icecream.jpg"), 555, 740)
@@ -255,6 +271,13 @@ public class FutureOfJava {
         .$("MapMaker")
     ));
 
+    deck.add(new Slide("Thank you!").add(bullets()
+        .$("Follow @crazybob or http://crazybob.org/")
+        .$("Don't miss Alex's modules talk.")
+        .$("Or my references talk.")
+        .$("See you @ Blueberry Hill!")
+    ).add(Picture.parseFile("images/misc/FatLadySings.jpg").width(400)
+        .position(750, 300)));
 
     deck.writePdf(new Plain(), "out/foj.pdf", true);
   }
