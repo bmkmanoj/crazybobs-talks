@@ -15,7 +15,7 @@ class StringSink extends Sink<String> {
   }
   public static void main(String[] args) {
     Sink<String> ss = new StringSink();
-    ss.addUnlessNull("cyanide");
+    ss.addUnlessNull("seppuku");
     System.out.println(ss);
   }
 }
