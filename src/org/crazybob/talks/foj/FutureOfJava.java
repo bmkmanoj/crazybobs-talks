@@ -129,7 +129,10 @@ public class FutureOfJava {
 
     deck.add(new Slide("Simplified varargs method invocation").add(bullets()
         .$("Moves warnings from caller to callee")
-        .$("Vastly reduces # of warnings")
+        .$("Vastly reduces # of warnings", bullets()
+          .$("One warning for every caller vs.")
+          .$("One warning on |Arrays.asList()| itself")
+        )
         .$("Helps catch errors sooner")
         .$("Proposed by Bob Lee")
     ));
@@ -172,17 +175,17 @@ public class FutureOfJava {
         Code.parseFile(PATH + "varargs/after/StringSink.java")
     ));
 
-    deck.add(new Slide("One more edge case").add(
+    deck.add(new Slide("Not so fast. One more loophole...").add(
         Code.parseFile(PATH + "varargs/before/PlainSink.java")
     ));
     deck.add(new Slide("After the language change").add(
         Code.parseFile(PATH + "varargs/after/PlainSink.java")
     ));
 
-    deck.add(new Slide("|java.util.Arrays|").add(
+    deck.add(new Slide("All that work just to get...").add(
         Code.parseFile(PATH + "varargs/before/Arrays.java")
     ));
-    deck.add(new Slide("|java.util.Arrays|").add(
+    deck.add(new Slide("So we can suppress it once and for all!").add(
         Code.parseFile(PATH + "varargs/after/Arrays.java")
     ));
 
