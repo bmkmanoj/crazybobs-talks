@@ -33,7 +33,7 @@ public class FutureOfJava {
         .$("Android core library lead")
         .$("Guice creator")
         .$("JSR-330 lead")
-        .$("EC rep")
+        .$("Google's alternate EC rep")
         .$("St. Louisan")
         .$("Speedo model")
     ).add(speedo()));
@@ -117,11 +117,77 @@ public class FutureOfJava {
     deck.add(new Slide(armExample)
         .add(Code.parseFile(PATH + "arm/witharm2/HeaderParser.j")));
 
-    deck.add(new Slide("Why ARM is important").add(bullets()
-        .$("Out of 110 uses of |close()| in the JDK...", bullets()
-          .$("74 (2/3) leaked")
-          .$("In other words, 2/3 of all uses were broken"))
-        .$("")
+    revealBullets(deck, "Why ARM is important",
+        "The JDK opens & closes resources in 110 places.",
+        "74 of those can leak. _2/3rds!_",
+        "None suppress exceptions correctly.",
+        "ARM reduces error-prone boilerplate.",
+        "Ideally, _all_ |finally| blocks would work this way."
+    );
+
+    // Varargs
+
+    deck.add(new Slide("Simplified varargs method invocation").add(bullets()
+        .$("Moves warnings from caller to callee")
+        .$("Vastly reduces # of warnings")
+        .$("Helps catch errors sooner")
+        .$("Proposed by Bob Lee")
+    ));
+
+    deck.add(new Slide("Today, the compiler warns the caller.").add(
+        Code.parseFile(PATH + "varargs/before/Sink.java")
+    ));
+    deck.add(new Slide("What's really going on here...").add(
+        Code.parseFile(PATH + "varargs/before2/Sink.java")
+    ));
+    deck.add(new Slide("After the language change...").add(
+        Code.parseFile(PATH + "varargs/after/Sink.java")
+    ));
+
+    deck.add(new Slide("Before the language change").add(
+        Code.parseFile(PATH + "varargs/before/BrokenSink.java")
+    ));
+    deck.add(new Slide("After the language change").add(
+        Code.parseFile(PATH + "varargs/after/BrokenSink.java")
+    ));
+
+    deck.add(new Slide("What does this program print?").add(
+        Code.parseFile(PATH + "varargs/before/StringSink.java"),
+        Spacer.vertical(40),
+        new Text("a) StringSink@32c41a"),
+        new Text("b) [\"cyanide\"]"),
+        new Text("c) Nothing. It throws an exception.")
+    ));
+    deck.add(new Slide("If you answered C, you're correct!").add(
+        Code.parseFile(PATH + "varargs/before2/StringSink.java"),
+        Spacer.vertical(40),
+        new Text("a) StringSink@32c41a"),
+        new Text("b) [\"cyanide\"]"),
+        new Text("*c) Nothing. It throws |ClassCastException|.*")
+    ));
+    deck.add(new Slide("Let's look at |Sink| again...").add(
+        Code.parseFile(PATH + "varargs/before2/Sink.java")
+    ));
+    deck.add(new Slide("After the language change").add(
+        Code.parseFile(PATH + "varargs/after/StringSink.java")
+    ));
+
+    deck.add(new Slide("One more edge case").add(
+        Code.parseFile(PATH + "varargs/before/PlainSink.java")
+    ));
+    deck.add(new Slide("After the language change").add(
+        Code.parseFile(PATH + "varargs/after/PlainSink.java")
+    ));
+
+    deck.add(new Slide("|java.util.Arrays|").add(
+        Code.parseFile(PATH + "varargs/before/Arrays.java")
+    ));
+    deck.add(new Slide("|java.util.Arrays|").add(
+        Code.parseFile(PATH + "varargs/after/Arrays.java")
+    ));
+
+    deck.add(new Slide("The moral of this story...").add(bullets()
+        .$("Arrays and generics don't mix.")
     ));
 
     deck.writePdf(new Plain(), "out/foj.pdf", true);
@@ -137,6 +203,17 @@ public class FutureOfJava {
     int newWidth = Deck.HEIGHT * w / h;
     p.position(Deck.WIDTH - newWidth, 0);
     return p;
+  }
+
+  private static void revealBullets(Deck deck, String title,
+      String... bullets) {
+    for (int max = 0; max <= bullets.length; max++) {
+      Bullets b = new Bullets();
+      for (int i = 0; i < max; i++) {
+        b.add(bullets[i]);
+      }
+      deck.add(new Slide(title).add(b));
+    }
   }
 
   private static void highlightBullets(Deck deck, String title,
