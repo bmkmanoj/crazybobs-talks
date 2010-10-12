@@ -1,11 +1,7 @@
 // Copyright 2010 Square, Inc.
 package org.crazybob.talks.androidsquared;
 
-import org.crazybob.deck.Box;
-import org.crazybob.deck.Deck;
-import org.crazybob.deck.Slide;
-import org.crazybob.deck.Template;
-import org.crazybob.deck.Text;
+import org.crazybob.deck.*;
 import org.crazybob.deck.templates.Square;
 
 /**
@@ -36,6 +32,11 @@ public class AndroidSquared {
   private static void squarewave(Template template, Deck deck) {
     deck.add(sectionTitleSlide(template, "Swipe Decoding"));
 
+    deck.add(new Slide("Square Reader")
+        .add(fillRight(Picture.parseFile("images/androidsquared/reader.png"),
+            362, 393))
+        .add(new Text("Acts as a microphone")));
+
     // TODO
   }
 
@@ -50,6 +51,7 @@ public class AndroidSquared {
     // TODO
   }
 
+  /** Returns a section title slide. */
   private static Slide sectionTitleSlide(Template template, String title) {
     Slide slide = new Slide();
     Box titleBox = new Box(300, 300, 50, 50);
@@ -60,5 +62,12 @@ public class AndroidSquared {
     slide.add(titleBox);
 
     return slide;
+  }
+
+  private static Picture fillRight(Picture p, int w, int h) {
+    p.height(Deck.HEIGHT);
+    int newWidth = Deck.HEIGHT * w / h;
+    p.position(Deck.WIDTH - newWidth, 0);
+    return p;
   }
 }
