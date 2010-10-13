@@ -25,7 +25,7 @@ public class AndroidSquared {
     introduction(template, deck);
     squarewave(template, deck);
     queuefile(template, deck);
-    shakeSensor(template, deck);
+    shakeDetector(template, deck);
     retrofit(template, deck);
 
     deck.writePdf(template, "out/androidsquared.pdf", true);
@@ -89,9 +89,49 @@ public class AndroidSquared {
     // TODO Bob's section
   }
 
-  private static void shakeSensor(Template template, Deck deck) {
+  private static void shakeDetector(Template template, Deck deck) {
     deck.add(sectionTitleSlide(template, "Shake Detection"));
-    // TODO - Eric's section
+
+    deck.add(new Slide("Shake to Clear Signature")
+        .add(picture("signature.png").center()));
+
+    deck.add(new Slide("Using the Accelerometer").add(
+        Code.parseFile(PATH + "shakedetector/HelloAccelerometer.java")
+    ));
+
+    revealBullets(deck, "Accelerometer Values",
+        "x, y, and z acceleration",
+        "Units are m/s^2",
+        "Acceleration applied to device _minus force of gravity_",
+        "When flat on a table, Z acceleration = +9.81 (0 - -9.81)");
+
+    deck.add(new Slide("Device at Rest")
+        .add(picture("accelerometer-at-rest.png").center()));
+
+    deck.add(new Slide("Magnitude (Pythagorean)").add(
+        Code.parseFile(PATH + "shakedetector/Magnitude.java")));
+
+    deck.add(new Slide("Magnitude Graph")
+        .add(picture("accelerometer-data.png").center()));
+
+    deck.add(new Slide("Threshold")
+        .add(picture("acceleration-threshold.png").center()));
+
+    deck.add(new Slide("Data Rates Vary by Device")
+        .add(picture("accelerometer-rates.png").center()));
+
+    deck.add(new Slide("Solution: Variable Size Window").add(bullets()
+        .$("Did the magnitude exceed the threshold?")
+        .$("Store true/false readings in a queue")
+        .$("Queue holds readings from last 500ms")
+        .$("When 75% of readings are true, shake")));
+
+    deck.add(new Slide("ShakeDetector").add(
+        Code.parseFile(PATH + "shakedetector/ShakeDetector.java")));
+
+    deck.add(new Slide("Using ShakeDetector").add(
+        Code.parseFile(PATH + "shakedetector/ShakeDemo.java")));
+    
   }
 
   private static void retrofit(Template template, Deck deck) {
