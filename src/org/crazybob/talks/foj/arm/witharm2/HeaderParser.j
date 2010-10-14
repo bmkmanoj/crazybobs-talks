@@ -14,7 +14,9 @@ public class HeaderParser {
         BufferedReader in = new BufferedReader(fin)) {
     /// NORMAL
       return parse(in.readLine());
+    /// HIGHLIGHT
     }
+    /// NORMAL
   }
 
   private static Header parse(String first) throws ParseException {

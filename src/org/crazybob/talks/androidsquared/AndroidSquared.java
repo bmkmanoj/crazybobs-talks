@@ -14,7 +14,7 @@ public class AndroidSquared {
 
   public static void main(String[] args) {
     Deck deck = new Deck()
-        .title("Android Squared")
+        .title("Android\u00B2")
         .subtitle("")
         .author("Bob Lee & Eric Burke")
         .company("Square, Inc.");
@@ -24,20 +24,37 @@ public class AndroidSquared {
     // Break it down into main sections for ease of collaboration.
     introduction(template, deck);
     squarewave(template, deck);
-    queuefile(template, deck);
-    shakeDetector(template, deck);
     retrofit(template, deck);
+    io(template, deck);
+    shakeDetector(template, deck);
+    restAdapter(template, deck);
+    api(template, deck);
 
     deck.writePdf(template, "out/androidsquared.pdf", true);
   }
 
   private static void introduction(Template template, Deck deck) {
-    // TODO Bob's section
+    deck.add(new Slide("Square")
+        .add(picture("nexusone.png").width(1000).center()));
+
+    deck.add(new Slide().background(picture("buffet.jpg")));
+
+    deck.add(new Slide("Overview").add(bullets()
+        .$("Squarewave")
+        .$("Retrofit", bullets()
+            .$("I/O")
+            .$("Shake detection")        
+            .$("REST")
+        )
+        .$("Point-of-sale API")
+    ));
   }
 
   private static void squarewave(Template template, Deck deck) {
-    deck.add(sectionTitleSlide(template, "Swipe Decoding"));
-
+    deck.add(new Slide("*Squarewave:* Magnetic Stripe Decoder").add(
+        fillBottom(picture("swipe.jpg"), 640, 308)
+    ));
+    
     deck.add(new Slide("Square Reader")
         .add(fillRight(picture("reader.png"),
             362, 393))
@@ -84,13 +101,40 @@ public class AndroidSquared {
         "Repeat entire process on failed swipes");
   }
 
-  private static void queuefile(Template template, Deck deck) {
+  private static void retrofit(Template template, Deck deck) {
+    deck.add(new Slide().background(picture("retrofit.jpg")));
+
+    deck.add(new Slide("Retrofit").add(bullets()
+        .$("Extends Android and Java")
+        .$("Apache-licensed")
+        .$("Modules", bullets()
+            .$("|core|")
+            .$("|io|")
+            .$("|http|")
+            .$("|android|")
+          )
+        .$("|http://github.com/square/retrofit|")
+    ));
+  }
+
+  private static void io(Template template, Deck deck) {
+    deck.add(new Slide("Retrofit I/O").add(bullets()
+        .$("Persistent queue")
+        .$("String file")
+    ));
+
+    deck.add(new Slide("Square for Android Storage").add(bullets()
+        .$("Queues")
+        .$("Key-value pairs")
+        .$("No SQL")
+    ));
+
     deck.add(sectionTitleSlide(template, "QueueFile"));
     // TODO Bob's section
   }
 
   private static void shakeDetector(Template template, Deck deck) {
-    deck.add(sectionTitleSlide(template, "Shake Detection"));
+    deck.add(sectionTitleSlide(template, "Retrofit Shake Detection"));
 
     deck.add(new Slide("Shake to Clear Signature")
         .add(picture("signature.png").center()));
@@ -134,12 +178,12 @@ public class AndroidSquared {
     
   }
 
-  private static void retrofit(Template template, Deck deck) {
-    deck.add(sectionTitleSlide(template, "Retrofit"));
+  private static void restAdapter(Template template, Deck deck) {
+    // TODO
+  }
 
-    // TODO - Bob's section
-
-    // Introduce the Retrofit project
+  private static void api(Template template, Deck deck) {
+    // TODO
   }
 
   private static Picture picture(String name) {
@@ -157,6 +201,14 @@ public class AndroidSquared {
     slide.add(titleBox);
 
     return slide;
+  }
+
+  private static Picture fillBottom(Picture p, int w, int h) {
+    p.width(Deck.WIDTH);
+    int newHeight = Deck.WIDTH * h / w;
+    System.out.println(newHeight);
+    p.position(0, Deck.HEIGHT - newHeight);
+    return p;
   }
 
   private static Picture fillRight(Picture p, int w, int h) {

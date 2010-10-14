@@ -21,7 +21,8 @@ public class Square implements Template {
 
   public static final Color BLUE = new Color(31, 84, 123);
   public static final Color LIGHT_BLUE = new Color(81, 125, 156);
-  public static final Color GRAY = new Color(99, 101, 103);
+  public static final Color GRAY = new Color(0x99, 0x99, 0x99);
+  public static final Color DARK_GRAY = new Color(0x50, 0x50, 0x50);
 
   public Picture defaultBackground() {
     return null;
@@ -33,7 +34,7 @@ public class Square implements Template {
     Box titleBox = new Box(600, 300, 50, 50);
 
     Font titleFont = new Font(Font.Face.HELVETICA, 42, Font.Style.NORMAL,
-        BLUE);
+        DARK_GRAY);
     titleBox.add(new Text(deck.title()).font(titleFont));
     titleBox.add(new Text(deck.subtitle()).font(titleFont));
 
@@ -55,7 +56,7 @@ public class Square implements Template {
   }
 
   public Font titleFont() {
-    return new Font(Font.Face.HELVETICA, 36, Font.Style.NORMAL, BLUE);
+    return new Font(Font.Face.HELVETICA, 36, Font.Style.NORMAL, DARK_GRAY);
   }
 
   public Margins titleMargins() {
@@ -79,14 +80,14 @@ public class Square implements Template {
   public Text bullet(int depth) {
     return new Text(depth == 0 ? "> " : "¥ ").font(
         new Font(Font.Face.HELVETICA, bulletFontSize(depth), Font.Style.NORMAL,
-            LIGHT_BLUE));
+            DARK_GRAY));
   }
 
   private int bulletFontSize(int depth) {
     switch (depth) {
-      case 0: return 28;
-      case 1: return 26;
-      case 2: return 22;
+      case 0: return 30;
+      case 1: return 28;
+      case 2: return 24;
       default: return 18;
     }
   }
