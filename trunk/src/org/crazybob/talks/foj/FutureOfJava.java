@@ -1,14 +1,6 @@
 package org.crazybob.talks.foj;
 
-import org.crazybob.deck.Box;
-import org.crazybob.deck.Bullets;
-import org.crazybob.deck.Code;
-import org.crazybob.deck.Deck;
-import org.crazybob.deck.Font;
-import org.crazybob.deck.Picture;
-import org.crazybob.deck.Slide;
-import org.crazybob.deck.Spacer;
-import org.crazybob.deck.Text;
+import org.crazybob.deck.*;
 import org.crazybob.deck.templates.Plain;
 
 /**
@@ -73,7 +65,7 @@ public class FutureOfJava {
         .$("JSR-292 (Invokedynamic) support")
     ));
 
-    deck.add(new Slide("ARM").add(bullets()
+    deck.add(new Slide("1. ARM").add(bullets()
         .$("Automatic Resource Management")
         .$("Helps dispose of resources")
         .$("Proposed by Josh Bloch")
@@ -109,7 +101,7 @@ public class FutureOfJava {
         .add(Code.parseFile(PATH + "arm/witharm/HeaderParser.j")));
 
     deck.add(new Slide(armExample)
-        .add(Code.parseFile(PATH + "arm/witharm/HeaderParser.j"))
+        .add(Code.parseFile(PATH + "arm/witharm/HeaderParser2.j"))
         .add(Spacer.vertical(30),
           new Text("*Note:* Techincally, we could still leak.")
     ));
@@ -127,13 +119,15 @@ public class FutureOfJava {
 
     // Varargs
 
-    deck.add(new Slide("Simplified varargs method invocation").add(bullets()
-        .$("Moves warnings from caller to callee")
+    deck.add(new Slide("2. Simplified varargs method invocation").add(bullets()
+        .$("Moves varargs warnings from the caller to the callee")
+        .$("Only relevant for non-reifiable varargs types")
         .$("Vastly reduces # of warnings", bullets()
-          .$("One warning for every caller vs.")
+          .$("A warning per caller (the status quo) vs.")
           .$("One warning on |Arrays.asList()| itself")
         )
         .$("Helps catch errors sooner")
+        .$("Language changes don't get much simpler.")
         .$("Proposed by Bob Lee")
     ));
 
@@ -275,7 +269,7 @@ public class FutureOfJava {
         .$("Follow @crazybob or http://crazybob.org/")
         .$("Don't miss Alex's modules talk.")
         .$("Or my references talk.")
-        .$("See you @ Blueberry Hill!")
+        .$("One more thing...")
     ).add(Picture.parseFile("images/misc/FatLadySings.jpg").width(400)
         .position(750, 300)));
 

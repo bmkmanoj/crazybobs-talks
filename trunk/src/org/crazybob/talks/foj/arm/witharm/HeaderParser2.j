@@ -9,12 +9,12 @@ public class HeaderParser {
   /** Parses header from the first line of file. */
   public static Header parse(File file) throws IOException,
       ParseException {
-    /// HIGHLIGHT
+    /// BAD
     try (BufferedReader in = new BufferedReader(
         new FileReader(file))) {
     /// NORMAL
       return parse(in.readLine());
-    /// HIGHLIGHT
+    /// BAD
     }
     /// NORMAL
   }
