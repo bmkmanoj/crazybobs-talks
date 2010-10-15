@@ -68,6 +68,9 @@ public class AndroidSquared {
     deck.add(new Slide()
         .background(picture("dr-evil-epic-4g.png")));
 
+    deck.add(new Slide()
+        .background(picture("devices.jpg")));
+
     deck.add(new Slide("Actual Swipe Recording")
         .add(picture("swipe-1.png").center()));
 
