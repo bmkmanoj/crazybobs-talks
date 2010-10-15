@@ -29,6 +29,7 @@ public class AndroidSquared {
     shakeDetector(template, deck);
     restAdapter(template, deck);
     api(template, deck);
+    thankYou(template, deck);
 
     deck.writePdf(template, "out/androidsquared.pdf", true);
   }
@@ -241,11 +242,56 @@ public class AndroidSquared {
   }
 
   private static void restAdapter(Template template, Deck deck) {
-    // TODO
+    deck.add(new Slide().background(picture("rest.jpg")));
+
+    deck.add(new Slide("|RestAdapter|").add(bullets()
+        .$("Makes RESTful clients a breeze")
+        .$("Currently supports JSON responses")
+        .$("All user code runs in main thread")
+    ));
+
+    deck.add(new Slide("Example").add(
+        Code.parseFile(PATH + "http/AccountService.java")));
+
+    deck.add(new Slide("|ServerCall|").add(bullets()
+        .$("UI handler for server calls")
+        .$("Handles all dialogs", bullets()
+          .$("Progress")
+          .$("Operation failed")
+          .$("Network unavailable")
+          .$("Server unavailable")
+          .$("Unexpected error")
+        )
+        .$("Supports retries")
+    ));
+
+    deck.add(new Slide("Examples").add(bullets()
+        .$("Login")
+        .$("Signup")
+        .$("Authorization")
+    ));
+
+    deck.add(new Slide("Example").add(
+        Code.parseFile(PATH + "http/LoginActivity.j").scale(80)));
   }
 
   private static void api(Template template, Deck deck) {
-    // TODO
+    deck.add(new Slide("Point-of-Sale API")
+        .add(picture("taste.png").center().height(Deck.HEIGHT * 2 / 3)));
+
+    deck.add(new Slide("Example").add(
+        Code.parseFile(PATH + "TwoCents.j")));
+  }
+
+  private static void thankYou(Template template, Deck deck) {
+    deck.add(new Slide("Thank You!").add(bullets()
+      .$("|http://squareup.com/|")
+      .$("|http://github.com/square/retrofit|")
+      .$("We're hiring!")
+    ));
+
+    deck.add(new Slide("Example").add(
+        Code.parseFile(PATH + "TwoCents.j")));
   }
 
   private static Picture picture(String name) {
