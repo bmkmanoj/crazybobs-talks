@@ -38,13 +38,14 @@ public class AndroidSquared {
     deck.add(new Slide("Square")
         .add(picture("nexusone.png").width(1000).center()));
 
-    deck.add(new Slide().background(picture("buffet.jpg")));
+    //deck.add(new Slide().background(picture("buffet.jpg")));
+    deck.add(new Slide().add(picture("woot-bag-of-crap.jpg").center()));
 
     deck.add(new Slide("Overview").add(bullets()
         .$("Squarewave")
         .$("Retrofit", bullets()
             .$("I/O")
-            .$("Shake detection")        
+            .$("Shake detection")
             .$("REST")
         )
         .$("Point-of-sale API")
@@ -55,7 +56,7 @@ public class AndroidSquared {
     deck.add(new Slide("*Squarewave:* Magnetic Stripe Decoder").add(
         fillBottom(picture("swipe.jpg"), 640, 308)
     ));
-    
+
     deck.add(new Slide("Square Reader")
         .add(fillRight(picture("reader.png"),
             362, 393))
@@ -76,7 +77,7 @@ public class AndroidSquared {
     deck.add(new Slide("Swipe End")
         .add(picture("swipe-3.png").center()));
 
-    revealBullets(deck, "Challenges",
+    bullets(deck, "Challenges",
         "Swipe speed",
         "Device sample rate",
         "Audio correction");
@@ -93,7 +94,7 @@ public class AndroidSquared {
     deck.add(new Slide("Workbench")
         .add(picture("workbench.png").center()));
 
-    revealBullets(deck, "95% Accuracy",
+    bullets(deck, "95% Accuracy",
         "Record hundreds of swipes",
         "Decode all, record results",
         "Adjust parameters",
@@ -206,11 +207,11 @@ public class AndroidSquared {
         Code.parseFile(PATH + "shakedetector/HelloAccelerometer.java")
     ));
 
-    revealBullets(deck, "Accelerometer Values",
+    bullets(deck, "Accelerometer Values",
         "x, y, and z acceleration",
         "Units are m/s^2",
         "Acceleration applied to device _minus force of gravity_",
-        "When flat on a table, Z acceleration = +9.81 (0 - -9.81)");
+        "When flat on a table, Z accel = +9.81 (0 - -9.81)");
 
     deck.add(new Slide("Device at Rest")
         .add(picture("accelerometer-at-rest.png").center()));
@@ -238,7 +239,7 @@ public class AndroidSquared {
 
     deck.add(new Slide("Using ShakeDetector").add(
         Code.parseFile(PATH + "shakedetector/ShakeDemo.java")));
-    
+
   }
 
   private static void restAdapter(Template template, Deck deck) {
@@ -344,6 +345,15 @@ public class AndroidSquared {
       deck.add(new Slide(String.format("Step %d: %s", step++, title))
           .add(picture(image).center()));
     }
+  }
+
+  private static void bullets(Deck deck, String title, String... bullets) {
+    $Bullets b = new $Bullets();
+    for (String bullet : bullets) {
+      b.add(bullet);
+    }
+
+    deck.add(new Slide(title).add(b));
   }
 
   private static void revealBullets(Deck deck, String title,

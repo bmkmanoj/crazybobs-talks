@@ -1,7 +1,5 @@
 package org.crazybob.talks.androidsquared.shakedetector;
-
 import org.crazybob.talks.androidsquared.stubs.*;
-
 public class ShakeDemo extends Activity implements ShakeDetector.Listener {
 
   /// HIGHLIGHT
