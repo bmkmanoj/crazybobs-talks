@@ -118,23 +118,85 @@ public class AndroidSquared {
   }
 
   private static void io(Template template, Deck deck) {
-    deck.add(new Slide("Retrofit I/O").add(bullets()
-        .$("Persistent queue")
-        .$("String file")
-    ));
-
-    deck.add(new Slide("Square for Android Storage").add(bullets()
+    deck.add(new Slide("Square for Android Persistence").add(bullets()
         .$("Queues")
         .$("Key-value pairs")
         .$("No SQL")
     ));
 
-    deck.add(sectionTitleSlide(template, "QueueFile"));
-    // TODO Bob's section
+    deck.add(new Slide("Persistent Queue").add(bullets()
+        .$("Sending data to a server", bullets()
+            .$("Emails (Receipts)")
+            .$("Image uploads") // receipt images, signatures
+            .$("Payments")      // captures, voids, cash
+            .$("Analytics")     // swipe stats, funnels
+            .$("Crash dumps")
+        )
+        .$("Histories")
+    ));
+
+    deck.add(new Slide("Traditional Approaches").add(bullets()
+        .$("SQLite", bullets()
+            .$("Operations are O(log(n))")
+            .$("Rollback journal requires multiple operations")
+            .$("Write ahead log has other tradeoffs")
+            .$("|xDeviceCharacteristics|")
+        )
+        .$("File-per-element", bullets()
+            .$("4k/entry minimum")
+            .$("Several I/O operations")
+        )
+    ));
+
+    deck.add(new Slide("|QueueFile|").add(bullets()
+        .$("All operations are O(1)")
+        .$("Writes sync")
+        .$("Writes are atomic")
+    ).add(new Text(" "))
+        .add(Code.parseFile(PATH + "queuefile/QueueFile.j").scale(90)));
+
+    Picture queueFilePicture = picture("QueueFile.png").width(Deck.WIDTH * 3 / 4)
+        .position(150, Deck.HEIGHT - 375);
+
+    deck.add(new Slide("The Implementation").add(bullets()
+        .$("Depends somewhat on YAFFS", bullets()
+            .$("Yet Another Flash File System")
+            .$("Android's preeminent file system")
+            .$("Supports atomic sector writes")
+        )
+        .$("Writing the header commits a change")
+    ).add(queueFilePicture));
+
+    deck.add(new Slide("|QueueFile.add()|").add(bullets()
+        .$("Write element data")
+        .$("Write header (16 bytes < 4k)")
+        .$("Update in-memory state")
+    ).add(queueFilePicture));
+
+    deck.add(new Slide("|QueueFile.remove()|").add(bullets()
+        .$("Write header")
+        .$("Update in-memory state")
+    ).add(queueFilePicture));
+
+    deck.add(new Slide("Buffer expansion").add(bullets()
+        .$("|file.setLength(oldLength << 1)|")
+        .$("Make ring buffer contiguous")
+        .$("Write header (including file length)")
+        .$("Update in-memory state")
+    ).add(queueFilePicture));
+
+    deck.add(new Slide("Future Features").add(bullets()
+        .$("Support file systems without atomic segment writes", bullets()
+          .$("Rollback journal"))
+        .$("Batch writes", bullets()
+          .$("Optimistic batching")
+          .$("> 3 orders of magnitude throughput"))
+    ));
+
   }
 
   private static void shakeDetector(Template template, Deck deck) {
-    deck.add(sectionTitleSlide(template, "Retrofit Shake Detection"));
+    deck.add(new Slide().background(picture("etch-a-sketch.jpg")));
 
     deck.add(new Slide("Shake to Clear Signature")
         .add(picture("signature.png").center()));
