@@ -94,13 +94,21 @@ public class AndroidSquared {
     deck.add(new Slide("Workbench")
         .add(picture("workbench.png").center()));
 
-    bullets(deck, "95% Accuracy",
-        "Record hundreds of swipes",
-        "Decode all, record results",
-        "Adjust parameters",
-        "Repeat",
-        "After finding best options...",
-        "Repeat entire process on failed swipes");
+    deck.add(new Slide("Testing")
+        .add(picture("test-swipes.png").center()));
+
+    bullets(deck, "Find the Best Options",
+        "Decode every swipe",
+        "What percentage passed?",
+        "Repeat");
+
+    deck.add(new Slide("Good Enough?")
+        .add(picture("80-percent.png").center()));
+
+    bullets(deck, "95% Success!",
+        "For the remaining 20%",
+        "Find the best options again",
+        "And again...");
   }
 
   private static void retrofit(Template template, Deck deck) {
