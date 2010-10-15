@@ -296,14 +296,16 @@ public class AndroidSquared {
   }
 
   private static void thankYou(Template template, Deck deck) {
-    deck.add(new Slide("Thank You!").add(bullets()
-      .$("|http://squareup.com/|")
-      .$("|http://github.com/square/retrofit|")
-      .$("We're hiring!")
-    ));
+    deck.add(new Slide("Questions?").add(picture("questions.jpg")
+        .height(Deck.HEIGHT * 2 / 3).center()));
 
-    deck.add(new Slide("Example").add(
-        Code.parseFile(PATH + "TwoCents.j")));
+    deck.add(new Slide().background(picture("office.jpg")));
+
+    deck.add(new Slide("Thank You!").add(bullets()
+      .$("Retrofit: |http://github.com/square/retrofit|")
+      .$("We're hiring!", bullets()
+        .$("|http://squareup.com/jobs|"))
+    ));
   }
 
   private static Picture picture(String name) {
