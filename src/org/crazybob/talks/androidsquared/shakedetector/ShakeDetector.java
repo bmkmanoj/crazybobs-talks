@@ -1,7 +1,5 @@
 package org.crazybob.talks.androidsquared.shakedetector;
-
 import org.crazybob.talks.androidsquared.stubs.SensorManager;
-
 public class ShakeDetector {
   public ShakeDetector(Listener listener) {
     /// ...
