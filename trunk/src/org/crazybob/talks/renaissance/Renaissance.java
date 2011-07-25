@@ -5,10 +5,10 @@ import org.crazybob.deck.Bullets;
 import org.crazybob.deck.Deck;
 import org.crazybob.deck.Picture;
 import org.crazybob.deck.Slide;
-import org.crazybob.deck.Spacer;
 import org.crazybob.deck.Template;
 import org.crazybob.deck.Text;
 import org.crazybob.deck.templates.Oscon;
+import org.crazybob.talks.ThankYou;
 
 /**
  * On the Cusp of a Java Renaissance.
@@ -34,8 +34,16 @@ public class Renaissance {
     // What happened?
 
     Picture tardis = picture("tardis.png").position(1200, 150);
-    revealBullets(deck, "2004", tardis, "Struts was #1", "*March:* JSF 1.0 released",
-        "*July:* Rails open sourced", "*September:* Java 5 released");
+
+    revealBullets(deck, "2004", tardis,
+        "No WMDs",
+        "The Red Sox won the World Series",
+        "FaceBook was founded",
+        "Struts was #1",
+        "*March:* JSF 1.0 released",
+        "*July:* Rails open sourced",
+        "*September:* Java 5 released"
+    );
 
     sectionSlide(deck, "Turning the Tide");
 
@@ -67,12 +75,7 @@ public class Renaissance {
 
     sectionSlide(deck, "Risks");
 
-    deck.add(new Slide("Thank You!")
-        .add(new Text("If you enjoyed this talk, follow |@crazybob| on Twitter."))
-        .add(Spacer.vertical(30))
-        .add(new Text("*We're hiring!* Email résumés to |java-jobs@squareup.com|."))
-    );
-
+    deck.add(ThankYou.slide());
 
     deck.writePdf(template, "out/renaissance.pdf", true);
   }
