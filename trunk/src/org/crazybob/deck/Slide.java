@@ -86,7 +86,7 @@ public class Slide {
 
     for (PositionedElement element : positionedElement) {
       element.layOut(deck, this);
-      element.writePdf(deck);
+      element.writePdf(deck, title != null);
     }
   }
 }

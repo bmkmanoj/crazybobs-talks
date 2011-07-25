@@ -27,7 +27,7 @@ public class Box extends PositionedElement {
     return this;
   }
   
-  void writePdf(Deck deck) throws DocumentException {
+  void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
     ColumnText column = new ColumnText(deck.writer.getDirectContent());
     margins.applyTo(column);
     for (Element element : elements) {

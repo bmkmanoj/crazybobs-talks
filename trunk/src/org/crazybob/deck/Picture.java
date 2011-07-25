@@ -77,11 +77,16 @@ public abstract class Picture extends PositionedElement {
       return image;
     }
 
-    void writePdf(Deck deck) throws DocumentException {
+    void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
       int oldW = (int) image.getWidth();
       int oldH = (int) image.getHeight();
 
       Margins contentMargins = deck.template.contentMargins();
+
+      if (!hasTitle) {
+        // Expand to include title area.
+        contentMargins = Margins.encompass(contentMargins, deck.template.titleMargins());
+      }
 
       if (fill) {
         // try filling vertically
@@ -131,7 +136,7 @@ public abstract class Picture extends PositionedElement {
       throw new UnsupportedOperationException();
     }
 
-    void writePdf(Deck deck) throws DocumentException {
+    void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
       try {
         Process process = Runtime.getRuntime().exec(
             new String[] { "/usr/local/bin/dot", "-Tpdf" });
