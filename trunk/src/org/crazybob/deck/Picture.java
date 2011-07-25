@@ -62,6 +62,48 @@ public abstract class Picture extends PositionedElement {
     return this;
   }
 
+  void writePdf(Deck deck, boolean hasTitle, Image image) throws DocumentException {
+    int oldW = (int) image.getWidth();
+    int oldH = (int) image.getHeight();
+
+    Margins contentMargins = deck.template.contentMargins();
+
+    if (!hasTitle) {
+      // Expand to include title area.
+      contentMargins = Margins.encompass(contentMargins, deck.template.titleMargins());
+    }
+
+    if (fill) {
+      // try filling vertically
+      int newH = contentMargins.height();
+      int newW = oldW * newH / oldH;
+      if (newW <= contentMargins.width()) {
+        image.scaleAbsolute(newW, newH);
+      } else {
+        newW = contentMargins.width();
+        image.scaleAbsolute(newW, oldH * newW / oldW);
+      }
+    } else {
+      if (this.w > -1) {
+        image.scaleAbsolute(w, oldH * w / oldW);
+      } else if (this.h > -1) {
+        image.scaleAbsolute(oldW * h / oldH, h);
+      }
+    }
+
+    if (center) {
+      image.setAbsolutePosition(
+          contentMargins.centerX() - image.getScaledWidth() / 2,
+          Deck.HEIGHT - contentMargins.centerY()
+              - image.getScaledHeight() / 2
+      );
+    } else {
+      image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
+    }
+
+    deck.document.add(image);
+  }
+
   static class ImagePicture extends Picture {
 
     final Image image;
@@ -78,45 +120,7 @@ public abstract class Picture extends PositionedElement {
     }
 
     void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
-      int oldW = (int) image.getWidth();
-      int oldH = (int) image.getHeight();
-
-      Margins contentMargins = deck.template.contentMargins();
-
-      if (!hasTitle) {
-        // Expand to include title area.
-        contentMargins = Margins.encompass(contentMargins, deck.template.titleMargins());
-      }
-
-      if (fill) {
-        // try filling vertically
-        int newH = contentMargins.height();
-        int newW = oldW * newH / oldH;
-        if (newW <= contentMargins.width()) {
-          image.scaleAbsolute(newW, newH);
-        } else {
-          newW = contentMargins.width();
-          image.scaleAbsolute(newW, oldH * newW / oldW);
-        }
-      } else {
-        if (this.w > -1) {
-          image.scaleAbsolute(w, oldH * w / oldW);
-        } else if (this.h > -1) {
-          image.scaleAbsolute(oldW * h / oldH, h);
-        }
-      }
-
-      if (center) {
-        image.setAbsolutePosition(
-            contentMargins.centerX() - image.getScaledWidth() / 2,
-            Deck.HEIGHT - contentMargins.centerY()
-                - image.getScaledHeight() / 2
-        );
-      } else {
-        image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
-      }
-
-      deck.document.add(image);
+      writePdf(deck, hasTitle, image);
     }
   }
 
@@ -146,39 +150,8 @@ public abstract class Picture extends PositionedElement {
         PdfReader reader = new PdfReader(process.getInputStream());
         PdfImportedPage page = deck.writer.getImportedPage(reader, 1);
         Image image = Image.getInstance(page);
-        int oldW = (int) image.getWidth();
-        int oldH = (int) image.getHeight();
 
-        Margins contentMargins = deck.template.contentMargins();
-
-        if (fill) {
-          // try filling vertically
-          int newH = contentMargins.height();
-          int newW = oldW * newH / oldH;
-          if (newW <= contentMargins.width()) {
-            image.scaleAbsolute(newW, newH);
-          } else {
-            newW = contentMargins.width();
-            image.scaleAbsolute(newW, oldH * newW / oldW);
-          }
-        } else {
-          if (this.w > -1) {
-            image.scaleAbsolute(w, oldH * w / oldW);
-          } else if (this.h > -1) {
-            image.scaleAbsolute(oldW * h / oldH, h);
-          }
-        }
-
-        if (center) {
-          image.setAbsolutePosition(
-              contentMargins.centerX() - image.getScaledWidth() / 2,
-              Deck.HEIGHT - contentMargins.centerY()
-                  - image.getScaledHeight() / 2
-          );
-        } else {
-          image.setAbsolutePosition(x, Deck.HEIGHT - y - image.getScaledHeight());
-        }
-        deck.document.add(image);
+        writePdf(deck, hasTitle, image);
       } catch (IOException e) {
         throw new RuntimeException(e);
       } catch (BadElementException e) {

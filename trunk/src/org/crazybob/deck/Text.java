@@ -1,9 +1,17 @@
 package org.crazybob.deck;
 
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  *
@@ -85,5 +93,37 @@ public class Text extends Element {
 
   void writePdf(Deck deck, ColumnText column) throws DocumentException {
     column.addElement(toParagraph(deck.template.defaultFont()));
+  }
+
+  /**
+   * Enables us to scale and position text like a picture.
+   */
+  public Picture toPicture(final int width, final int height) {
+    return new Picture() {
+      @Override Image asBackgroundImage() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
+        Document document = new Document(new Rectangle(width, height));
+        document.setMargins(0, 0, 0, 0);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PdfWriter.getInstance(document, out);
+        document.open();
+        Paragraph paragraph = toParagraph(deck.template.defaultFont());
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(paragraph);
+        document.close();
+
+        try {
+          PdfReader reader = new PdfReader(out.toByteArray());
+          PdfImportedPage page = deck.writer.getImportedPage(reader, 1);
+          Image image = Image.getInstance(page);
+          writePdf(deck, hasTitle, image);
+        } catch (IOException e) {
+          throw new AssertionError(e);
+        }
+      }
+    };
   }
 }
