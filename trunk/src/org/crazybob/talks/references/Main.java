@@ -1,21 +1,20 @@
 package org.crazybob.talks.references;
 
-import org.crazybob.deck.Deck;
-import org.crazybob.deck.Slide;
-import org.crazybob.deck.Picture;
-import org.crazybob.deck.Code;
-import org.crazybob.deck.Text;
-import org.crazybob.deck.Bullets;
-import org.crazybob.deck.Spacer;
-import org.crazybob.deck.Box;
-import org.crazybob.deck.Font;
-import org.crazybob.deck.dot.DiGraph;
-import org.crazybob.deck.dot.Node;
-import org.crazybob.deck.dot.Link;
-import org.crazybob.deck.templates.JavaOne09;
-import org.crazybob.deck.templates.Plain;
-
 import java.awt.Color;
+import org.crazybob.deck.Box;
+import org.crazybob.deck.Bullets;
+import org.crazybob.deck.Code;
+import org.crazybob.deck.Deck;
+import org.crazybob.deck.Font;
+import org.crazybob.deck.Picture;
+import org.crazybob.deck.Slide;
+import org.crazybob.deck.Spacer;
+import org.crazybob.deck.Text;
+import org.crazybob.deck.dot.DiGraph;
+import org.crazybob.deck.dot.Link;
+import org.crazybob.deck.dot.Node;
+import org.crazybob.deck.templates.JavaOne09;
+import org.crazybob.deck.templates.Oscon;
 
 public class Main {
 
@@ -26,7 +25,7 @@ public class Main {
         .title("The Ghost in the Virtual Machine")
         .subtitle("A Reference to References")
         .author("Bob Lee")
-        .company("Google Inc.");
+        .company("Square Inc.");
 
     // TODO: trash truck picture
     deck.add(new Slide("Goals").add(bullets()
@@ -236,18 +235,10 @@ public class Main {
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
 
-    deck.add(new Slide()
-        .add(Picture.parseFile("images/references/ide.png")
-        .fill().center())
-        .add(new Box(50, 90, 36, Deck.HEIGHT - 180)
-            .add(new Text("This talk was brought to you by the letters"
-        + " J, A, V & A.").font(new Font(Font.Face.HELVETICA, 30,
-              Font.Style.NORMAL, JavaOne09.BLUE)))));
-
 //    deck.add(new Slide()
 //        .background(Picture.parseFile("images/javaone09/thankyou.png")));
 
-    deck.writePdf(new Plain(), "out/references.pdf", true);
+    deck.writePdf(new Oscon(), "out/references.pdf", true);
   }
 
   private static void highlightBullets(Deck deck, String title,
