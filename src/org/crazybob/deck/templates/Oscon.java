@@ -41,9 +41,9 @@ public class Oscon implements Template {
     titleBox.add(Spacer.vertical(20));
 
     titleBox.add(new Text(deck.author()).font(
-        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, GRAY)));
+        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, DARK_GRAY)));
     titleBox.add(new Text(deck.company()).font(
-        new Font(Font.Face.HELVETICA, 18, Font.Style.NORMAL, GRAY, 24)));
+        new Font(Font.Face.HELVETICA, 18, Font.Style.NORMAL, DARK_GRAY, 24)));
 
     titleSlide.add(titleBox);
 
@@ -51,7 +51,7 @@ public class Oscon implements Template {
   }
 
   public Font titleFont() {
-    return new Font(Font.Face.HELVETICA, 36, Font.Style.BOLD, BLACK);
+    return new Font(Font.Face.HELVETICA, 28, Font.Style.BOLD, BLACK);
   }
 
   public Margins titleMargins() {
@@ -63,7 +63,7 @@ public class Oscon implements Template {
   }
 
   public Font defaultFont() {
-    return new Font(Font.Face.HELVETICA, 28, Font.Style.NORMAL, BLACK);
+    return new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, BLACK, 28);
   }
 
   public Font bulletFont(int depth) {
@@ -77,22 +77,25 @@ public class Oscon implements Template {
 
   private int bulletFontSize(int depth) {
     switch (depth) {
-      case 0: return 30;
-      case 1: return 28;
-      case 2: return 24;
-      default: return 18;
+      case 0: return 22;
+      case 1: return 20;
+      case 2: return 18;
+      default: return 16;
     }
   }
 
+  static final int CODE_SIZE = 12;
+  static final int CODE_LEADING = 16;
+
   public Font codeFont() {
-    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, BLACK, 21);
+    return new Font(Font.Face.COURIER, CODE_SIZE, Font.Style.BOLD, BLACK, CODE_LEADING);
   }
 
   public Font highlightedCodeFont() {
-    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, Color.BLUE, 21);
+    return new Font(Font.Face.COURIER, CODE_SIZE, Font.Style.BOLD, Color.BLUE, CODE_LEADING);
   }
 
   public Font badCodeFont() {
-    return new Font(Font.Face.COURIER, 18, Font.Style.BOLD, Color.RED, 21);
+    return new Font(Font.Face.COURIER, CODE_SIZE, Font.Style.BOLD, Color.RED, CODE_LEADING);
   }
 }

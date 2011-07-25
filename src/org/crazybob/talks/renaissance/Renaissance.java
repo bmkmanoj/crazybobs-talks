@@ -28,13 +28,16 @@ public class Renaissance {
         .company("Square Inc.");
 
     deck.add(new Slide().add(picture("definition.png").center()));
-    // Presumably, interest waned at some point.
 
-    deck.add(new Slide("When did interest wane?").add(bullets()
-        .$("Bullet 1")
-        .$("Bullet 2")
-        .$("Bullet 3")
-    ));
+    // For interest to be renewed, presumably it waned at some point.
+    // What happened?
+
+    revealBullets(deck, "2004",
+        "Struts was #1",
+        "*March:* JSF 1.0",
+        "*July:* Rails open sourced",
+        "*September:* Java 5 released"
+    );
 
     deck.writePdf(template, "out/renaissance.pdf", true);
   }
