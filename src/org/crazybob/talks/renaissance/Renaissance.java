@@ -1,11 +1,11 @@
 // Copyright 2010 Square, Inc.
 package org.crazybob.talks.renaissance;
 
-import org.crazybob.deck.Box;
 import org.crazybob.deck.Bullets;
 import org.crazybob.deck.Deck;
 import org.crazybob.deck.Picture;
 import org.crazybob.deck.Slide;
+import org.crazybob.deck.Spacer;
 import org.crazybob.deck.Template;
 import org.crazybob.deck.Text;
 import org.crazybob.deck.templates.Oscon;
@@ -18,8 +18,9 @@ import org.crazybob.deck.templates.Oscon;
 public class Renaissance {
   static final String PATH = "src/org/crazybob/talks/renaissance/";
 
+  static Template template = new Oscon();
+
   public static void main(String[] args) {
-    Template template = new Oscon();
 
     Deck deck = new Deck()
         .title("On the cusp of a Java renaissance")
@@ -27,36 +28,66 @@ public class Renaissance {
         .author("Bob Lee")
         .company("Square Inc.");
 
-    deck.add(new Slide().add(picture("definition.png").center()));
+    centerText(deck, "*Ren•ais•sance* (n) A revival of or renewed interest in something");
 
     // For interest to be renewed, presumably it waned at some point.
     // What happened?
 
-    revealBullets(deck, "2004",
-        "Struts was #1",
-        "*March:* JSF 1.0",
-        "*July:* Rails open sourced",
-        "*September:* Java 5 released"
+    Picture tardis = picture("tardis.png").position(1200, 150);
+    revealBullets(deck, "2004", tardis, "Struts was #1", "*March:* JSF 1.0 released",
+        "*July:* Rails open sourced", "*September:* Java 5 released");
+
+    sectionSlide(deck, "Turning the Tide");
+
+    sectionSlide(deck, "Scalability");
+
+    sectionSlide(deck, "You can only throw so much hardware at it.");
+
+    revealBullets(deck, "What's changed?",
+        "Scalability",
+        "Maintainability",
+        "Reliability",
+        "Resources",
+        "Java 5, 6, 7, 8...",
+        "Android"
     );
+
+    sectionSlide(deck, "Is JRuby the answer?");
+
+    sectionSlide(deck, "What's new?");
+
+    revealBullets(deck, "What's changed?",
+        "Scalability",
+        "Maintainability",
+        "Reliability",
+        "Resources",
+        "Java 5, 6, 7, 8...",
+        "Android"
+    );
+
+    sectionSlide(deck, "Risks");
+
+    deck.add(new Slide("Thank You!")
+        .add(new Text("If you enjoyed this talk, follow |@crazybob| on Twitter."))
+        .add(Spacer.vertical(30))
+        .add(new Text("*We're hiring!* Email résumés to |java-jobs@squareup.com|."))
+    );
+
 
     deck.writePdf(template, "out/renaissance.pdf", true);
   }
 
-  private static Picture picture(String name) {
-    return Picture.parseFile("images/renaissance/" + name);
+  static void centerText(Deck deck, String text) {
+    deck.add(new Slide().add(new Text(text).toPicture(Deck.WIDTH, 80).center()));
   }
 
-  /** Returns a section title slide. */
-  private static Slide sectionTitleSlide(Template template, String title) {
-    Slide slide = new Slide();
-    Box titleBox = new Box(300, 300, 50, 50);
-    titleBox.add(new Text(title).font(template.titleFont().scale(125)));
+  static void sectionSlide(Deck deck, String text) {
+    deck.add(new Slide().add(new Text(text).font(template.titleFont())
+        .toPicture(Deck.WIDTH, 120).center()));
+  }
 
-    // TODO a horizontal line would look good here
-
-    slide.add(titleBox);
-
-    return slide;
+  private static Picture picture(String name) {
+    return Picture.parseFile("images/renaissance/" + name);
   }
 
   private static Picture fillBottom(Picture p, int w, int h) {
@@ -103,14 +134,19 @@ public class Renaissance {
     deck.add(new Slide(title).add(b));
   }
 
-  private static void revealBullets(Deck deck, String title,
-                                    String... bullets) {
+  private static void revealBullets(Deck deck, String title, String... bullets) {
+    revealBullets(deck, title, null, bullets);
+  }
+
+  private static void revealBullets(Deck deck, String title, Picture picture, String... bullets) {
     for (int max = 0; max <= bullets.length; max++) {
       Bullets b = new Bullets();
       for (int i = 0; i < max; i++) {
         b.add(bullets[i]);
       }
-      deck.add(new Slide(title).add(b));
+      Slide slide = new Slide(title).add(b);
+      if (picture != null) slide.add(picture);
+      deck.add(slide);
     }
   }
 
