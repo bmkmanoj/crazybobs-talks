@@ -35,4 +35,19 @@ public class Margins {
   void applyTo(ColumnText column) {
     column.setSimpleColumn(left, bottom, Deck.WIDTH - right, Deck.HEIGHT - top);
   }
+
+  static Margins encompass(Margins... marginArray) {
+    int left = Integer.MAX_VALUE;
+    int top = Integer.MAX_VALUE;
+    int right = Integer.MAX_VALUE;
+    int bottom = Integer.MAX_VALUE;
+
+    for (Margins margins : marginArray) {
+      left = Math.min(left, margins.left);
+      top = Math.min(top, margins.top);
+      right = Math.min(right, margins.right);
+      bottom = Math.min(bottom, margins.bottom);
+    }
+    return new Margins(left, top, right, bottom);
+  }
 }

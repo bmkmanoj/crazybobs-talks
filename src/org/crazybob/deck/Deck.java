@@ -1,15 +1,15 @@
 package org.crazybob.deck;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +17,8 @@ import java.io.IOException;
  */
 public class Deck {
 
-  public static final int WIDTH = 1280;
-  public static final int HEIGHT = 960;
+  public static final int WIDTH = 1920;
+  public static final int HEIGHT = 1080;
 
   String title;
   String subtitle;
@@ -83,12 +83,14 @@ public class Deck {
    */
   public void writePdf(Template template, String path, boolean open) {
     try {
+      String tempPath = path + ".temp";
+
       this.template = template;
       document = new Document(new Rectangle(WIDTH, HEIGHT));
       document.setMargins(0, 0, 0, 0);
       try {
         writer = PdfWriter.getInstance(document,
-            new FileOutputStream(path));
+            new FileOutputStream(tempPath));
       } catch (DocumentException e) {
         throw new RuntimeException(e);
       } catch (FileNotFoundException e) {
@@ -106,6 +108,8 @@ public class Deck {
       }
 
       document.close();
+
+      new File(tempPath).renameTo(new File(path));
 
       if (open) {
         try {
