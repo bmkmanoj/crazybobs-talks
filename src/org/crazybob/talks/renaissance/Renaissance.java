@@ -28,6 +28,8 @@ public class Renaissance {
         .author("Bob Lee")
         .company("Square Inc.");
 
+    // I'll talk a lot about Ruby because we're a Ruby shop.
+
     centerText(deck, "*Ren¥ais¥sance* (n) A revival of or renewed interest in something");
 
     // For interest to be renewed, presumably it waned at some point.
@@ -36,45 +38,63 @@ public class Renaissance {
     Picture tardis = picture("tardis.png").position(1200, 150);
 
     revealBullets(deck, "2004", tardis,
-        "No WMDs",
-        "The Red Sox won the World Series",
-        "FaceBook was founded",
         "Struts was #1",
         "*March:* JSF 1.0 released",
         "*July:* Rails open sourced",
-        "*September:* Java 5 released"
+        "*September:* Java 5 released",
+        "Frameworks took years to catch up.",
+        "Early adopter attention moved elsewhere."
+
+        // People who complain about the language today remind me of people who complained
+        // that Java was slow long after it clearly wasn't.
+        // Perception is important.
     );
 
-    sectionSlide(deck, "Turning the Tide");
+    sectionSlide(deck, "Why now?"); // After 7 years.
 
     sectionSlide(deck, "Scalability");
 
-    sectionSlide(deck, "You can only throw so much hardware at it.");
+    sectionSlide(deck, "You can only throw so much hardware at a problem.");
+    // Concurrent workers -- Netty
+    // Operational cost = ongoing tax
+    // Increases throughput but doesn't help latency.
 
-    revealBullets(deck, "What's changed?",
-        "Scalability",
-        "Maintainability",
-        "Reliability",
-        "Resources",
-        "Java 5, 6, 7, 8...",
-        "Android"
+    revealBullets(deck, "Is JRuby the answer?",
+        "Concurrency is rocket science.",
+        "Ruby talent is tough to come by."
+        // We hire Java engineers and train them to program Ruby.
     );
 
-    sectionSlide(deck, "Is JRuby the answer?");
+    // I'd be remiss if I didn't mention
+    sectionSlide(deck, "Android");
 
-    sectionSlide(deck, "What's new?");
-
-    revealBullets(deck, "What's changed?",
-        "Scalability",
-        "Maintainability",
-        "Reliability",
-        "Resources",
-        "Java 5, 6, 7, 8...",
-        "Android"
+    revealBullets(deck, "What's next?",
+        "|invokedynamic|",
+        "Closures & extension methods",
+        "In the mean time, empower new users."
+        // My experience coming from Google and being legitimately new to Ruby
     );
 
-    sectionSlide(deck, "Risks");
+    sectionSlide(deck, "One Open Question");
 
+    revealBullets(deck, "Is Java open?",
+        "Openness is relative.",
+        "Differentiate between Java SE vs. OpenJDK",
+        // Marketing, not an open standard.
+
+        // GPL v2 vs. 3
+        // Sun/Oracle has effectively weaponized the GPL
+
+        // It boils down to:
+        "Sun/Oracle failed to deliver on its promises."
+    );
+    
+    sectionSlide(deck, "Does it matter?");
+
+    sectionSlide(deck, "Maybe.");
+    // If Oracle is able to regain the trust of the community that built the Java ecosystem.
+    // If not, I suspect a more open alternative will prevail.
+    
     deck.add(ThankYou.slide());
 
     deck.writePdf(template, "out/renaissance.pdf", true);
