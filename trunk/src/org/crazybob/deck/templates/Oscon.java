@@ -41,11 +41,13 @@ public class Oscon implements Template {
     titleBox.add(Spacer.vertical(20));
 
     titleBox.add(new Text(deck.author()).font(
-        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, DARK_GRAY)));
-    titleBox.add(new Text(deck.company()).font(
-        new Font(Font.Face.HELVETICA, 18, Font.Style.NORMAL, DARK_GRAY, 24)));
+        new Font(Font.Face.HELVETICA, 22, Font.Style.NORMAL, Color.GRAY)));
+//    titleBox.add(new Text(deck.company()).font(
+//        new Font(Font.Face.HELVETICA, 18, Font.Style.NORMAL, DARK_GRAY, 24)));
 
     titleSlide.add(titleBox);
+
+    titleSlide.add(Picture.parsePdf("images/square/logo.pdf").position(675, 765));
 
     return titleSlide;
   }

@@ -31,7 +31,8 @@ public class MarkAndSweep {
 
   private static final String GRAY = "#999999";
   private static final String BLACK = "black";
-  private static final String WHITE = "#ffffff";
+  private static final String WHITE = "#FFFFFF";
+  private static final String TRANSPARENT = "#00000000";
 
   private static final String[] STEPS = {
       "*1.* Start at a root.",
@@ -151,7 +152,7 @@ public class MarkAndSweep {
       super("object");
     }
     void light() {
-      node.fillColor(WHITE).fontColor(GRAY).lineColor(GRAY);
+      node.fillColor(TRANSPARENT).fontColor(GRAY).lineColor(GRAY);
     }
     void dark() {
       node.fillColor("#999999").fontColor(WHITE).lineColor(BLACK);

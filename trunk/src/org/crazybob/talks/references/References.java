@@ -13,7 +13,7 @@ import org.crazybob.deck.Text;
 import org.crazybob.deck.dot.DiGraph;
 import org.crazybob.deck.dot.Link;
 import org.crazybob.deck.dot.Node;
-import org.crazybob.deck.templates.Oscon;
+import org.crazybob.deck.templates.Square;
 import org.crazybob.talks.ThankYou;
 
 public class References {
@@ -241,7 +241,7 @@ public class References {
 //    deck.add(new Slide()
 //        .background(Picture.parseFile("images/javaone09/thankyou.png")));
 
-    deck.writePdf(new Oscon(), "out/references.pdf", true);
+    deck.writePdf(new Square(), "out/references.pdf", true);
   }
 
   private static void highlightBullets(Deck deck, String title,
