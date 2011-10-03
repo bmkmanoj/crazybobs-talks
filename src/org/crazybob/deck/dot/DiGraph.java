@@ -22,7 +22,7 @@ public class DiGraph {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("digraph g { aspect=1.66; margin=0; rankdir=LR;"
-        + " node[style=filled];\n");
+        + " graph [truecolor bgcolor=\"#00000000\"]; node[style=filled];\n");
     for (Node node : nodes) {
       node.appendDecl(builder);
     }

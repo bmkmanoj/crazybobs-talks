@@ -1,11 +1,11 @@
 package org.crazybob.deck;
 
-import com.lowagie.text.Image;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.Image;
 import com.lowagie.text.pdf.PdfImportedPage;
-
+import com.lowagie.text.pdf.PdfReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -55,6 +55,10 @@ public abstract class Picture extends PositionedElement {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static Picture parsePdf(String path) {
+    return new Pdf(path);
   }
 
   public Picture fill() {
@@ -148,6 +152,34 @@ public abstract class Picture extends PositionedElement {
         out.write(dot.getBytes());
         out.close();
         PdfReader reader = new PdfReader(process.getInputStream());
+        PdfImportedPage page = deck.writer.getImportedPage(reader, 1);
+        Image image = Image.getInstance(page);
+
+        writePdf(deck, hasTitle, image);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      } catch (BadElementException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  static class Pdf extends Picture {
+
+    final String path;
+
+    Pdf(String path) {
+      this.path = path;
+    }
+
+    Image asBackgroundImage() {
+      throw new UnsupportedOperationException();
+    }
+
+    void writePdf(Deck deck, boolean hasTitle) throws DocumentException {
+      try {
+        FileInputStream in = new FileInputStream(path);
+        PdfReader reader = new PdfReader(in);
         PdfImportedPage page = deck.writer.getImportedPage(reader, 1);
         Image image = Image.getInstance(page);
 
