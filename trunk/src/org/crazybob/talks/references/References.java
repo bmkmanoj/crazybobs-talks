@@ -27,12 +27,8 @@ public class References {
         .author("Bob Lee")
         .company("Square Inc.");
 
-    // TODO: trash truck picture
-    deck.add(new Slide("Goals").add(bullets()
-        .$("Take the mystery out of garbage collection.")
-        .$("Put an end to finalizers.")
-        .$("Perform manual cleanup the Right Way.")
-    ));
+    deck.add(new Slide("Goals").add(bullets().$("Take the mystery out of garbage collection.").$
+        ("Put an end to finalizers.").$("Perform manual cleanup the Right Way.")));
 
     addHeapSlides(deck);
 
@@ -63,28 +59,16 @@ public class References {
         )
     ));
 
-    deck.add(new Slide("Try-finally").add(
+    deck.add(new Slide("Try-finally first.").add(
         Code.parseFile(PATH + "copy/CopyFile.j")));
 
-    deck.add(new Slide("Try |finally| first.").add(bullets()
-        .$("Pros:", bullets()
-            .$("More straightforward")
-            .$("Handles exceptions in main thread")
-            .$("Ensures cleanup keeps pace")
-        )
-        .$("Cons:", bullets()
-            .$("More work for programmers")
-            .$("More error prone")
-            .$("Cleanup happens in main thread")
-        )
-        .$("Try-with-resources will help.")
-    ));
+    deck.add(new Slide("Try-finally first.").add(bullets().$("Pros:", bullets().$("More "
+        + "straightforward").$("Handles exceptions in main thread").$("Ensures cleanup keeps "
+        + "pace")).$("Cons:", bullets().$("More work for programmers").$("More error prone").$
+        ("Cleanup happens in main thread")).$("Try-with-resources will help.")));
 
-    deck.add(new Slide("Try-with-resources").add(
-        new Text("Before:").scale(75),
-        Spacer.vertical(30),
-        Code.parseFile(PATH + "copy/CopyFile.j").scale(90)
-    ));
+    deck.add(new Slide("Try-with-resources").add(new Text("Before:").scale(75),
+        Spacer.vertical(30), Code.parseFile(PATH + "copy/CopyFile.j").scale(90)));
 
     deck.add(new Slide("Try-with-resources").add(
         new Text("Before:").scale(75),
@@ -179,6 +163,11 @@ public class References {
         Code.parseFile(PATH + "CachedFile.java")
     ));
 
+    deck.add(new Slide("Caching a file").add(Code.parseFile(PATH + "CachedFile.java"))
+        .add(new Box(150, 0, 50, 50).add(
+            new Text("X").font(
+                new Font(Font.Face.HELVETICA, 200, Font.Style.NORMAL, Color.RED)))));
+
     deck.add(new Slide("Weak references").add(bullets()
         .$("Cleared as soon as no strong or soft refs remain.")
         .$("Cleared ASAP, before the finalizer runs.")
@@ -259,10 +248,10 @@ public class References {
     MarkAndSweep tracer = new MarkAndSweep(deck, 12);
     tracer.addSlides();
 
-    deck.add(ThankYou.slide());
+    deck.add(new Slide("Brought to you by the letters J, A, V & A...")
+            .add(Picture.parseFile("images/references/ide2.png").fill().center()));
 
-//    deck.add(new Slide()
-//        .background(Picture.parseFile("images/javaone09/thankyou.png")));
+    deck.add(ThankYou.slide());
 
     deck.writePdf(new Square(), "out/references.pdf", true);
   }
