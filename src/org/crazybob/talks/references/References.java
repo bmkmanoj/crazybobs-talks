@@ -236,13 +236,17 @@ public class References {
     deck.add(new Slide("Guava |MapMaker|").add(bullets()
       .$("Near drop-in replacement for |WeakHashMap|")
       .$("Strong, soft, or weak key and/or value references")
-      .$("Concurrent, cleans up in background thread")
       .$("Uses |==| to compare weak and soft referents")
-      .$("Supports on-demand computation of values")
-      .$("*Supports size limiting*")
     ));
 
-    deck.add(new Slide("Guava |MapMaker|").add(
+    deck.add(new Slide("Guava |CacheBuilder|").add(bullets()
+      .$("Superset of |MapMaker|")
+      .$("Supports on-demand computation of values")
+      .$("Expiration")
+      .$("Size limiting")
+    ));
+
+    deck.add(new Slide("Guava |CacheBuilder|").add(
         Code.parseFile(PATH + "GetterMethods.java"),
         Spacer.vertical(20),
         new Text("*Usage:  |List<Method> l = GetterMethods.on(Foo.class);|*").scale(80)
