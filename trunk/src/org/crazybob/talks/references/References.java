@@ -30,8 +30,8 @@ public class References {
     // TODO: trash truck picture
     deck.add(new Slide("Goals").add(bullets()
         .$("Take the mystery out of garbage collection.")
-        .$("Perform manual cleanup the Right way.")
-        .$("Become honorary VM sanitation engineers.")
+        .$("Put an end to finalizers.")
+        .$("Perform manual cleanup the Right Way.")
     ));
 
     addHeapSlides(deck);
@@ -57,11 +57,14 @@ public class References {
             .$("External state (|IdentityHashMap|)")
         )
         .$("Tools at your disposal:", bullets()
-            .$("|finally|")
+            .$("try-finally")
             .$("Overriding |Object.finalize()|")
             .$("References (and reference queues)")
         )
     ));
+
+    deck.add(new Slide("Try-finally").add(
+        Code.parseFile(PATH + "copy/CopyFile.j")));
 
     deck.add(new Slide("Try |finally| first.").add(bullets()
         .$("Pros:", bullets()
@@ -74,7 +77,23 @@ public class References {
             .$("More error prone")
             .$("Cleanup happens in main thread")
         )
-        .$("ARM will help.")
+        .$("Try-with-resources will help.")
+    ));
+
+    deck.add(new Slide("Try-with-resources").add(
+        new Text("Before:").scale(75),
+        Spacer.vertical(30),
+        Code.parseFile(PATH + "copy/CopyFile.j").scale(90)
+    ));
+
+    deck.add(new Slide("Try-with-resources").add(
+        new Text("Before:").scale(75),
+        Spacer.vertical(30),
+        Code.parseFile(PATH + "copy/CopyFile.j").scale(90),
+        Spacer.vertical(30),
+        new Text("After:").scale(75),
+        Spacer.vertical(30),
+        Code.parseFile(PATH + "copy/CopyFileWithArm.j").scale(90)
     ));
 
     deck.add(new Slide("What is a finalizer?").add(
