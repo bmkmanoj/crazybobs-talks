@@ -1,16 +1,16 @@
 package org.crazybob.talks.references;
-import com.google.common.collect.MapMaker;
-import com.google.common.base.Function;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 public class GetterMethods {
-  final static Map<Class<?>, List<Method>> cache = new MapMaker()
+  final static Cache<Class<?>, List<Method>> cache = CacheBuilder.newBuilder()
       .weakKeys()
       .softValues()
-      .makeComputingMap(new Function<Class<?>, List<Method>>() {
-        public List<Method> apply(Class<?> clazz) {
+      .build(new CacheLoader<Class<?>, List<Method>>() {
+        public List<Method> load(Class<?> clazz) {
           List<Method> getters = new ArrayList<Method>();
           for (Method m : clazz.getMethods())
             if (m.getName().startsWith("get"))
@@ -19,6 +19,6 @@ public class GetterMethods {
         }
       });
   public static List<Method> on(Class<?> clazz) {
-    return cache.get(clazz);
+    return cache.apply(clazz);
   }
 }
